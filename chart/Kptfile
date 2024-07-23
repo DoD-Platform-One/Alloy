@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: alloy
+upstream:
+  type: git
+  git:
+    commit: b957de68821926812b261df81ac80fcbeadddb05
+    repo: https://github.com/grafana/alloy
+    directory: /operations/helm/charts/alloy
+    ref: helm-chart/0.5.1

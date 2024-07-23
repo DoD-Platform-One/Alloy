@@ -11,6 +11,8 @@ annotations:
   helm.sh/images: |
     - name: grafana-alloy
       image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.2.1
+    - name: configmap-reload
+      image: registry1.dso.mil/ironbank/opensource/jimmidyson/configmap-reload:v1.2.1
 dependencies:
   - name: crds
     version: "0.0.0"

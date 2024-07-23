@@ -140,9 +140,9 @@ configReloader:
   enabled: true
   image:
     # -- Config reloader image registry (defaults to docker.io)
-    registry: "ghcr.io"
+    registry: "registry1.dso.mil"
     # -- Repository to get config reloader image from.
-    repository: jimmidyson/configmap-reload
+    repository: ironbank/opensource/jimmidyson/configmap-reload
     # -- Tag of image to use for config reloading.
     tag: v0.12.0
     # -- SHA256 digest of image to use for config reloading (either in format "sha256:XYZ" or "XYZ"). When set, will override `configReloader.image.tag`

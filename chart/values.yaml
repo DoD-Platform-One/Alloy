@@ -14,7 +14,7 @@ global:
 
     # -- Optional set of global image pull secrets.
     pullSecrets:
-    - private-registry
+    - name: private-registry
 
   # -- Security context to apply to the Grafana Alloy pod.
   podSecurityContext: {}
@@ -117,7 +117,7 @@ image:
   pullPolicy: IfNotPresent
   # -- Optional set of image pull secrets.
   pullSecrets: 
-  - private-registry
+  - name: private-registry
 
 rbac:
   # -- Whether to create RBAC resources for Alloy.

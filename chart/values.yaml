@@ -17,7 +17,13 @@ global:
     - name: private-registry
 
   # -- Security context to apply to the Grafana Alloy pod.
-  podSecurityContext: {}
+  podSecurityContext:
+    runAsUser: 473
+    runAsGroup: 473
+    fsGroup: 473
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
 
 crds:
   # -- Whether to install CRDs for monitoring.
@@ -98,7 +104,13 @@ alloy:
     extra: []
 
   # -- Security context to apply to the Grafana Alloy container.
-  securityContext: {}
+  securityContext:
+    runAsUser: 473
+    runAsGroup: 473
+    runAsNonRoot: true
+    capabilities:
+      drop:
+      - ALL
 
   # -- Resource requests and limits to apply to the Grafana Alloy container.
   resources: {}
@@ -155,7 +167,13 @@ configReloader:
       cpu: "1m"
       memory: "5Mi"
   # -- Security context to apply to the Grafana configReloader container.
-  securityContext: {}
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 473
+    runAsGroup: 473
+    capabilities:
+      drop:
+      - ALL
 
 controller:
   # -- Type of controller to use for deploying Grafana Alloy in the cluster.
@@ -253,6 +271,14 @@ controller:
   ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
   ##
   initContainers: []
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - ALL
 
   # -- Additional containers to run alongside the Alloy container and initContainers.
   extraContainers: []

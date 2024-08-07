@@ -38,10 +38,10 @@ addons:
     #       enabled: true
 
 kyverno:
-  enabled: false # waiting on issue- https://repo1.dso.mil/big-bang/apps/sandbox/grafana-alloy/-/issues/24
+  enabled: true
 
 kyvernoPolicies:
-  enabled: false  # waiting on issue- https://repo1.dso.mil/big-bang/apps/sandbox/grafana-alloy/-/issues/24
+  enabled: true
 #   values:
 #     exclude:
 #       any:

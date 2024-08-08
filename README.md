@@ -1,8 +1,14 @@
+<!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # alloy
 
-![Version: 0.5.1-bb.0](https://img.shields.io/badge/Version-0.5.1--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.2.1](https://img.shields.io/badge/AppVersion-v1.2.1-informational?style=flat-square)
+![Version: 0.5.1-bb.1](https://img.shields.io/badge/Version-0.5.1--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.2.1](https://img.shields.io/badge/AppVersion-v1.2.1-informational?style=flat-square)
 
 Grafana Alloy
+
+### Upstream Release Notes
+
+- [Find our upstream chart's CHANGELOG here](https://github.com/grafana/alloy/blob/main/CHANGELOG.md)
+- [and our upstream application release notes here](https://github.com/grafana/alloy/blob/main/docs/sources/release-notes.md?plain=1)
 
 ## Learn More
 * [Application Overview](docs/overview.md)
@@ -33,8 +39,8 @@ helm install alloy chart/
 | nameOverride | string | `nil` | Overrides the chart's name. Used to change the infix in the resource names. |
 | fullnameOverride | string | `nil` | Overrides the chart's computed fullname. Used to change the full prefix of resource names. |
 | global.image.registry | string | `"registry1.dso.mil"` | Global image registry to use if it needs to be overriden for some specific use cases (e.g local registries, custom images, ...) |
-| global.image.pullSecrets | list | `["private-registry"]` | Optional set of global image pull secrets. |
-| global.podSecurityContext | object | `{}` | Security context to apply to the Grafana Alloy pod. |
+| global.image.pullSecrets | list | `[{"name":"private-registry"}]` | Optional set of global image pull secrets. |
+| global.podSecurityContext | object | `{"fsGroup":473,"runAsGroup":473,"runAsNonRoot":true,"runAsUser":473,"seccompProfile":{"type":"RuntimeDefault"}}` | Security context to apply to the Grafana Alloy pod. |
 | crds.create | bool | `true` | Whether to install CRDs for monitoring. |
 | alloy.configMap.create | bool | `true` | Create a new ConfigMap for the config file. |
 | alloy.configMap.content | string | `""` | Content to assign to the new ConfigMap.  This is passed into `tpl` allowing for templating from values. |
@@ -56,27 +62,27 @@ helm install alloy chart/
 | alloy.mounts.varlog | bool | `false` | Mount /var/log from the host into the container for log collection. |
 | alloy.mounts.dockercontainers | bool | `false` | Mount /var/lib/docker/containers from the host into the container for log collection. |
 | alloy.mounts.extra | list | `[]` | Extra volume mounts to add into the Grafana Alloy container. Does not affect the watch container. |
-| alloy.securityContext | object | `{}` | Security context to apply to the Grafana Alloy container. |
+| alloy.securityContext | object | `{"capabilities":{"drop":["ALL"]},"runAsGroup":473,"runAsNonRoot":true,"runAsUser":473}` | Security context to apply to the Grafana Alloy container. |
 | alloy.resources | object | `{}` | Resource requests and limits to apply to the Grafana Alloy container. |
 | image.registry | string | `"registry1.dso.mil"` | Grafana Alloy image registry (defaults to docker.io) |
 | image.repository | string | `"ironbank/opensource/grafana/alloy"` | Grafana Alloy image repository. |
 | image.tag | string | `"v1.2.1"` | Grafana Alloy image tag. When empty, the Chart's appVersion is used. |
 | image.digest | string | `nil` | Grafana Alloy image's SHA256 digest (either in format "sha256:XYZ" or "XYZ"). When set, will override `image.tag`. |
 | image.pullPolicy | string | `"IfNotPresent"` | Grafana Alloy image pull policy. |
-| image.pullSecrets | list | `["private-registry"]` | Optional set of image pull secrets. |
+| image.pullSecrets | list | `[{"name":"private-registry"}]` | Optional set of image pull secrets. |
 | rbac.create | bool | `true` | Whether to create RBAC resources for Alloy. |
 | serviceAccount.create | bool | `true` | Whether to create a service account for the Grafana Alloy deployment. |
 | serviceAccount.additionalLabels | object | `{}` | Additional labels to add to the created service account. |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the created service account. |
 | serviceAccount.name | string | `nil` | The name of the existing service account to use when serviceAccount.create is false. |
 | configReloader.enabled | bool | `true` | Enables automatically reloading when the Alloy config changes. |
-| configReloader.image.registry | string | `"ghcr.io"` | Config reloader image registry (defaults to docker.io) |
-| configReloader.image.repository | string | `"jimmidyson/configmap-reload"` | Repository to get config reloader image from. |
+| configReloader.image.registry | string | `"registry1.dso.mil"` | Config reloader image registry (defaults to docker.io) |
+| configReloader.image.repository | string | `"ironbank/opensource/jimmidyson/configmap-reload"` | Repository to get config reloader image from. |
 | configReloader.image.tag | string | `"v0.12.0"` | Tag of image to use for config reloading. |
 | configReloader.image.digest | string | `""` | SHA256 digest of image to use for config reloading (either in format "sha256:XYZ" or "XYZ"). When set, will override `configReloader.image.tag` |
 | configReloader.customArgs | list | `[]` | Override the args passed to the container. |
 | configReloader.resources | object | `{"requests":{"cpu":"1m","memory":"5Mi"}}` | Resource requests and limits to apply to the config reloader container. |
-| configReloader.securityContext | object | `{}` | Security context to apply to the Grafana configReloader container. |
+| configReloader.securityContext | object | `{"capabilities":{"drop":["ALL"]},"runAsGroup":473,"runAsNonRoot":true,"runAsUser":473}` | Security context to apply to the Grafana configReloader container. |
 | controller.type | string | `"daemonset"` | Type of controller to use for deploying Grafana Alloy in the cluster. Must be one of 'daemonset', 'deployment', or 'statefulset'. |
 | controller.replicas | int | `1` | Number of pods to deploy. Ignored when controller.type is 'daemonset'. |
 | controller.extraAnnotations | object | `{}` | Annotations to add to controller. |
@@ -107,6 +113,10 @@ helm install alloy chart/
 | controller.volumes.extra | list | `[]` | Extra volumes to add to the Grafana Alloy pod. |
 | controller.volumeClaimTemplates | list | `[]` | volumeClaimTemplates to add when controller.type is 'statefulset'. |
 | controller.initContainers | list | `[]` |  |
+| controller.securityContext.runAsNonRoot | bool | `true` |  |
+| controller.securityContext.runAsUser | int | `1001` |  |
+| controller.securityContext.runAsGroup | int | `1001` |  |
+| controller.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | controller.extraContainers | list | `[]` | Additional containers to run alongside the Alloy container and initContainers. |
 | service.enabled | bool | `true` | Creates a Service for the controller's pods. |
 | service.type | string | `"ClusterIP"` | Service type |
@@ -133,3 +143,8 @@ helm install alloy chart/
 ## Contributing
 
 Please see the [contributing guide](./CONTRIBUTING.md) if you are interested in contributing.
+
+---
+
+_This file is programatically generated using `helm-docs` and some BigBang-specific templates. The `gluon` repository has [instructions for regenerating package READMEs](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md)._
+

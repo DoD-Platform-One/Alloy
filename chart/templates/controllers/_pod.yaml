@@ -11,6 +11,7 @@ metadata:
     {{- with .Values.controller.podLabels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+    {{- include "bigbang.labels" . | nindent 4 }}
 spec:
   {{- with .Values.global.podSecurityContext }}
   securityContext:

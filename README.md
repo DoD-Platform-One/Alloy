@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # alloy
 
-![Version: 0.5.1-bb.2](https://img.shields.io/badge/Version-0.5.1--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.2.1](https://img.shields.io/badge/AppVersion-v1.2.1-informational?style=flat-square)
+![Version: 0.5.1-bb.3](https://img.shields.io/badge/Version-0.5.1--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.2.1](https://img.shields.io/badge/AppVersion-v1.2.1-informational?style=flat-square)
 
 Grafana Alloy
 
@@ -11,23 +11,24 @@ Grafana Alloy
 - [and our upstream application release notes here](https://github.com/grafana/alloy/blob/main/docs/sources/release-notes.md?plain=1)
 
 ## Learn More
-* [Application Overview](docs/overview.md)
-* [Other Documentation](docs/)
+- [Application Overview](docs/overview.md)
+- [Other Documentation](docs/)
 
 ## Pre-Requisites
 
-* Kubernetes Cluster deployed
-* Kubernetes config installed in `~/.kube/config`
-* Helm installed
+- Kubernetes Cluster deployed
+- Kubernetes config installed in `~/.kube/config`
+- Helm installed
 
 Install Helm
 
-https://helm.sh/docs/intro/install/
+<https://helm.sh/docs/intro/install/>
 
 ## Deployment
 
-* Clone down the repository
-* cd into directory
+- Clone down the repository
+- cd into directory
+
 ```bash
 helm install alloy chart/
 ```
@@ -56,8 +57,8 @@ helm install alloy chart/
 | alloy.uiPathPrefix | string | `"/"` | Base path where the UI is exposed. |
 | alloy.enableReporting | bool | `true` | Enables sending Grafana Labs anonymous usage stats to help improve Grafana Alloy. |
 | alloy.extraEnv | list | `[]` | Extra environment variables to pass to the Alloy container. |
-| alloy.envFrom | list | `[]` | Maps all the keys on a ConfigMap or Secret as environment variables. https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#envfromsource-v1-core |
-| alloy.extraArgs | list | `[]` | Extra args to pass to `alloy run`: https://grafana.com/docs/alloy/latest/reference/cli/run/ |
+| alloy.envFrom | list | `[]` | Maps all the keys on a ConfigMap or Secret as environment variables. <https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#envfromsource-v1-core> |
+| alloy.extraArgs | list | `[]` | Extra args to pass to `alloy run`: <https://grafana.com/docs/alloy/latest/reference/cli/run/> |
 | alloy.extraPorts | list | `[]` | Extra ports to expose on the Alloy container. |
 | alloy.mounts.varlog | bool | `false` | Mount /var/log from the host into the container for log collection. |
 | alloy.mounts.dockercontainers | bool | `false` | Mount /var/lib/docker/containers from the host into the container for log collection. |
@@ -89,7 +90,7 @@ helm install alloy chart/
 | controller.parallelRollout | bool | `true` | Whether to deploy pods in parallel. Only used when controller.type is 'statefulset'. |
 | controller.hostNetwork | bool | `false` | Configures Pods to use the host network. When set to true, the ports that will be used must be specified. |
 | controller.hostPID | bool | `false` | Configures Pods to use the host PID namespace. |
-| controller.dnsPolicy | string | `"ClusterFirst"` | Configures the DNS policy for the pod. https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy |
+| controller.dnsPolicy | string | `"ClusterFirst"` | Configures the DNS policy for the pod. <https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy> |
 | controller.updateStrategy | object | `{}` | Update strategy for updating deployed Pods. |
 | controller.nodeSelector | object | `{}` | nodeSelector to apply to Grafana Alloy pods. |
 | controller.tolerations | list | `[]` | Tolerations to apply to Grafana Alloy pods. |
@@ -127,9 +128,9 @@ helm install alloy chart/
 | serviceMonitor.enabled | bool | `false` |  |
 | serviceMonitor.additionalLabels | object | `{}` | Additional labels for the service monitor. |
 | serviceMonitor.interval | string | `""` | Scrape interval. If not set, the Prometheus default scrape interval is used. |
-| serviceMonitor.metricRelabelings | list | `[]` | MetricRelabelConfigs to apply to samples after scraping, but before ingestion. ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig |
+| serviceMonitor.metricRelabelings | list | `[]` | MetricRelabelConfigs to apply to samples after scraping, but before ingestion. ref: <https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig> |
 | serviceMonitor.tlsConfig | object | `{}` | Customize tls parameters for the service monitor |
-| serviceMonitor.relabelings | list | `[]` | RelabelConfigs to apply to samples before scraping ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig |
+| serviceMonitor.relabelings | list | `[]` | RelabelConfigs to apply to samples before scraping ref: <https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig> |
 | ingress.enabled | bool | `false` | Enables ingress for Alloy (Faro port) |
 | ingress.annotations | object | `{}` |  |
 | ingress.labels | object | `{}` |  |
@@ -147,4 +148,3 @@ Please see the [contributing guide](./CONTRIBUTING.md) if you are interested in 
 ---
 
 _This file is programatically generated using `helm-docs` and some BigBang-specific templates. The `gluon` repository has [instructions for regenerating package READMEs](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md)._
-

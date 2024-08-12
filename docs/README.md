@@ -57,3 +57,16 @@ kyvernoPolicies:
 #           allow:
 #           - /var/lib/rancher/k3s/storage/pvc-*
 ```
+
+
+## Istio Authorization Policies
+A default allow nothing policy has been added and should be removed in favor of the umbrella policy, and as we add connectors additional authorization policies should be added.
+Potential connectors may be but are not limited to:
+- Grafana
+- Tempo
+- Prometheus
+- Loki
+
+Some Istio Authorization Policies References:
+- [Istio Auth Policies Epic Cleanup](https://repo1.dso.mil/groups/big-bang/-/epics/337)
+- [Older Istio Auth Policies Epic](https://repo1.dso.mil/groups/big-bang/-/epics/159)

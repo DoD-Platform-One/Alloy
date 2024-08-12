@@ -25,6 +25,12 @@ global:
     seccompProfile:
       type: RuntimeDefault
 
+istio:
+  enabled: false
+  namespace: istio-system
+  hardened:
+    enabled: false
+
 crds:
   # -- Whether to install CRDs for monitoring.
   create: true

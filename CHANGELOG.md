@@ -4,6 +4,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.6.0-bb.0] - 2024-08-14
+
+### Changed
+
+- gluon updated from 0.5.0 to 0.5.3
+- ironbank/opensource/grafana/alloy updated from v1.2.1 to v1.3.0
+- ironbank/opensource/jimmidyson/configmap-reload updated from v0.12.0 to v0.13.1
+
 ## [0.5.1-bb.5] - 2024-08-13
 
 ### Added

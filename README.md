@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # alloy
 
-![Version: 0.5.1-bb.5](https://img.shields.io/badge/Version-0.5.1--bb.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.2.1](https://img.shields.io/badge/AppVersion-v1.2.1-informational?style=flat-square)
+![Version: 0.6.0-bb.0](https://img.shields.io/badge/Version-0.6.0--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.3.0](https://img.shields.io/badge/AppVersion-v1.3.0-informational?style=flat-square)
 
 Grafana Alloy
 
@@ -69,7 +69,7 @@ helm install alloy chart/
 | alloy.resources | object | `{}` | Resource requests and limits to apply to the Grafana Alloy container. |
 | image.registry | string | `"registry1.dso.mil"` | Grafana Alloy image registry (defaults to docker.io) |
 | image.repository | string | `"ironbank/opensource/grafana/alloy"` | Grafana Alloy image repository. |
-| image.tag | string | `"v1.2.1"` | Grafana Alloy image tag. When empty, the Chart's appVersion is used. |
+| image.tag | string | `"v1.3.0"` | Grafana Alloy image tag. When empty, the Chart's appVersion is used. |
 | image.digest | string | `nil` | Grafana Alloy image's SHA256 digest (either in format "sha256:XYZ" or "XYZ"). When set, will override `image.tag`. |
 | image.pullPolicy | string | `"IfNotPresent"` | Grafana Alloy image pull policy. |
 | image.pullSecrets | list | `[{"name":"private-registry"}]` | Optional set of image pull secrets. |
@@ -81,7 +81,7 @@ helm install alloy chart/
 | configReloader.enabled | bool | `true` | Enables automatically reloading when the Alloy config changes. |
 | configReloader.image.registry | string | `"registry1.dso.mil"` | Config reloader image registry (defaults to docker.io) |
 | configReloader.image.repository | string | `"ironbank/opensource/jimmidyson/configmap-reload"` | Repository to get config reloader image from. |
-| configReloader.image.tag | string | `"v0.12.0"` | Tag of image to use for config reloading. |
+| configReloader.image.tag | string | `"v0.13.1"` | Tag of image to use for config reloading. |
 | configReloader.image.digest | string | `""` | SHA256 digest of image to use for config reloading (either in format "sha256:XYZ" or "XYZ"). When set, will override `configReloader.image.tag` |
 | configReloader.customArgs | list | `[]` | Override the args passed to the container. |
 | configReloader.resources | object | `{"requests":{"cpu":"1m","memory":"5Mi"}}` | Resource requests and limits to apply to the config reloader container. |

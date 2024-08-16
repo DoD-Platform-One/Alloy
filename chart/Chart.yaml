@@ -2,15 +2,15 @@ apiVersion: v2
 name: alloy
 description: 'Grafana Alloy'
 type: application
-version: 0.5.1-bb.5
-appVersion: 'v1.2.1'
+version: 0.6.0-bb.0
+appVersion: 'v1.3.0'
 icon: https://raw.githubusercontent.com/grafana/alloy/main/docs/sources/assets/alloy_icon_orange.svg
 annotations:
   bigbang.dev/applicationVersions: |
     - Grafana Alloy: 'v1.2.1'
   helm.sh/images: |
     - name: grafana-alloy
-      image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.2.1
+      image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.3.0
     - name: configmap-reload
       image: registry1.dso.mil/ironbank/opensource/jimmidyson/configmap-reload:v1.2.1
   bigbang.dev/upstreamReleaseNotesMarkdown: |
@@ -21,5 +21,5 @@ dependencies:
     version: "0.0.0"
     condition: crds.create
   - name: gluon
-    version: "0.5.0"
+    version: "0.5.3"
     repository: oci://registry1.dso.mil/bigbang

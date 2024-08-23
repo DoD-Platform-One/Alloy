@@ -25,12 +25,6 @@ global:
     seccompProfile:
       type: RuntimeDefault
 
-istio:
-  enabled: false
-  namespace: istio-system
-  hardened:
-    enabled: false
-
 crds:
   # -- Whether to install CRDs for monitoring.
   create: true
@@ -434,3 +428,13 @@ networkPolicies:
   # Used by package NetworkPolicies to allow Kube API access
   controlPlaneCidr: 0.0.0.0/0
   additionalPolicies: []
+
+istio:
+  enabled: false
+  # -- Default peer authentication values
+  hardened:
+    enabled: false
+  mtls:
+    # -- STRICT = Allow only mutual TLS traffic,
+    # PERMISSIVE = Allow both plain text and mutual TLS traffic
+    mode: STRICT

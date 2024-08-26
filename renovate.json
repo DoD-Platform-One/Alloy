@@ -26,7 +26,7 @@
         {
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
-                "- Grafana Alloy:\\s+(?<currentValue>.+)",
+                "- Alloy:\\s+(?<currentValue>.+)",
                 "appVersion:\\s+(?<currentValue>.+)" 
             ],
             "depNameTemplate": "registry1.dso.mil/ironbank/opensource/grafana/alloy",

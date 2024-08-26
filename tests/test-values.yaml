@@ -1,0 +1,9 @@
+alloy:
+  # -- Resource requests and limits to apply to the Grafana Alloy container.
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 4000Mi
+    requests:
+      cpu: 1000m
+      memory: 2000Mi

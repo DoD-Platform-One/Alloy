@@ -101,9 +101,9 @@
     version: $VERSION-bb.0
     annotations:
     bigbang.dev/applicationVersions: |
-        - Grafana Alloy: '$ALLOY_APP_VERSION'
+        - Alloy: '$ALLOY_APP_VERSION'
     helm.sh/images: |
-        - name: grafana-alloy
+        - name: alloy
         image: registry1.dso.mil/ironbank/opensource/grafana/alloy:$ALLOY_APP_VERSION
         - name: configmap-reload
         image: registry1.dso.mil/ironbank/opensource/jimmidyson/configmap-reload:$ALLOY_APP_VERSION
@@ -267,7 +267,7 @@ You will want to install with:
 
 - Istio package enabled
 
-`overrides/grafana-alloy.yaml`
+`overrides/alloy.yaml`
 
 ```yaml
 domain: dev.bigbang.mil
@@ -288,6 +288,6 @@ addons:
     enabled: true
 ```
 
-- Validate Grafana Alloy pod logs are showing no errors.
+- Validate Alloy pod logs are showing no errors.
 
 > When in doubt with any testing or upgrade steps, reach out to the CODEOWNERS for assistance.

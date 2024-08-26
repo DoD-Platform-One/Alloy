@@ -7,9 +7,9 @@ appVersion: 'v1.3.0'
 icon: https://raw.githubusercontent.com/grafana/alloy/main/docs/sources/assets/alloy_icon_orange.svg
 annotations:
   bigbang.dev/applicationVersions: |
-    - Grafana Alloy: 'v1.2.1'
+    - Alloy: 'v1.3.0'
   helm.sh/images: |
-    - name: grafana-alloy
+    - name: alloy
       image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.3.0
     - name: configmap-reload
       image: registry1.dso.mil/ironbank/opensource/jimmidyson/configmap-reload:v1.2.1

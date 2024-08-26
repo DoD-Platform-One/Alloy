@@ -1,8 +1,8 @@
-# POC Deployment Framework for Grafana Alloy Sandbox
+# POC Deployment Framework for Alloy Sandbox
 
 ## Upstream Big Bang Repo
 
-Upstream Big Bang branch for Grafana Alloy is [epic-347/grafana-alloy-sandbox](https://repo1.dso.mil/big-bang/bigbang/-/tree/epic-347/grafana-alloy-sandbox?ref_type=heads). 
+Upstream Big Bang branch for Alloy is [epic-347/grafana-alloy-sandbox](https://repo1.dso.mil/big-bang/bigbang/-/tree/epic-347/grafana-alloy-sandbox?ref_type=heads). 
 
 **IMPORTANT:** The `epic-347/grafana-alloy-sandbox` should be treated as the Development branch where no direct commits are made against the branch other than MRs. No direct commit should be taken on the `epic-347/grafana-alloy-sandbox`. The process for MR to the branch should:
 

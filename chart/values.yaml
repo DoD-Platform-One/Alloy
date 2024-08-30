@@ -106,6 +106,9 @@ alloy:
     # -- Deploy Alloy in a cluster to allow for load distribution.
     enabled: false
 
+    # -- Name for the Alloy cluster. Used for differentiating between clusters.
+    name: ""
+
     # -- Name for the port used for clustering, useful if running inside an Istio Mesh
     portName: http
 
@@ -185,7 +188,7 @@ image:
   repository: ironbank/opensource/grafana/alloy
   # -- (string) Grafana Alloy image tag. When empty, the Chart's appVersion is
   # used.
-  tag: "v1.3.0"
+  tag: "v1.3.1"
   # -- Grafana Alloy image's SHA256 digest (either in format "sha256:XYZ" or "XYZ"). When set, will override `image.tag`.
   digest: null
   # -- Grafana Alloy image pull policy.

@@ -2,15 +2,15 @@ apiVersion: v2
 name: alloy
 description: 'Grafana Alloy'
 type: application
-version: 0.6.0-bb.1
-appVersion: 'v1.3.0'
+version: 0.6.1-bb.0
+appVersion: 'v1.3.1'
 icon: https://raw.githubusercontent.com/grafana/alloy/main/docs/sources/assets/alloy_icon_orange.svg
 annotations:
   bigbang.dev/applicationVersions: |
     - Alloy: 'v1.3.0'
   helm.sh/images: |
     - name: alloy
-      image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.3.0
+      image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.3.1
     - name: configmap-reload
       image: registry1.dso.mil/ironbank/opensource/jimmidyson/configmap-reload:v1.2.1
   bigbang.dev/upstreamReleaseNotesMarkdown: |

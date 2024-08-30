@@ -74,7 +74,7 @@
 
 ### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
     ```yaml
-    grafanaAlloy:
+    alloy:
       enabled: true
       git:
         tag: null
@@ -121,11 +121,11 @@
 
 ### ```chart/values.yaml```
 
-- Verify that Renovate updated the grafanaAlloy: section with the correct value for  `tag`. For example, if Renovate wants to update Alloy to version `1.3.0`, you should see:
+- Verify that Renovate updated the alloy: section with the correct value for  `tag`. For example, if Renovate wants to update Alloy to version `1.3.0`, you should see:
 
   ```yaml
   addons:
-     grafanaAlloy:
+     alloy:
         image:
         # -- The Docker registry
         registry: registry1.dso.mil
@@ -281,7 +281,7 @@ istio:
   enabled: true
 
 addons:
-  grafanaAlloy:
+  alloy:
     # git:
     #   tag: null
     #   branch: "<branch-name>"

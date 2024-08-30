@@ -5,7 +5,7 @@ metadata:
 upstream:
   type: git
   git:
-    commit: d5089b261eb6c485e9ad6c591cb702037349182d
+    commit: a67ea22a928a9348e23cd56762c5225b2f7fdd34
     repo: https://github.com/grafana/alloy
     directory: /operations/helm/charts/alloy
-    ref: helm-chart/0.6.0
+    ref: helm-chart/0.6.1

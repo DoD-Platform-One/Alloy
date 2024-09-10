@@ -1,432 +1,61 @@
-# -- Overrides the chart's name. Used to change the infix in the resource names.
-nameOverride: null
+# k8s-monitoring values: https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring/values.yaml
+k8s-monitoring:
+  cluster:
+    name: bigbang
 
-# -- Overrides the chart's computed fullname. Used to change the full prefix of
-# resource names.
-fullnameOverride: null
+  global:
+    image:
+      registry: "registry1.dso.mil"
+      pullSecrets:
+      - name: private-registry
 
-## Global properties for image pulling override the values defined under `image.registry` and `configReloader.image.registry`.
-## If you want to override only one image registry, use the specific fields but if you want to override them all, use `global.image.registry`
-global:
-  image:
-    # -- Global image registry to use if it needs to be overriden for some specific use cases (e.g local registries, custom images, ...)
-    registry: "registry1.dso.mil"
+  externalServices:
+    prometheus:
+      host: monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090
+      authMode: none
+    loki:
+      host: logging-loki.logging.svc.cluster.local:3100
+      authMode: none
+    tempo:
+      host: tempo-tempo.tempo.svc.cluster.local:4317
+      authMode: none
+      tls:
+        insecure: true
 
-    # -- Optional set of global image pull secrets.
-    pullSecrets:
-    - name: private-registry
+  alloy:
+    image:
+      repository: "ironbank/opensource/grafana/alloy"
+    configReloader:
+      image:
+        repository: "ironbank/opensource/jimmidyson/configmap-reload"
 
-  # -- Security context to apply to the Grafana Alloy pod.
-  podSecurityContext:
-    runAsUser: 473
-    runAsGroup: 473
-    fsGroup: 473
-    runAsNonRoot: true
-    seccompProfile:
-      type: RuntimeDefault
+  traces:
+    enabled: true
 
-crds:
-  # -- Whether to install CRDs for monitoring.
-  create: true
+  logs:
+    cluster_events:
+      enabled: false
+    pod_logs:
+      enabled: false
 
-## Various Alloy settings. For backwards compatibility with the grafana-agent
-## chart, this field may also be called "agent". Naming this field "agent" is
-## deprecated and will be removed in a future release.
-alloy:
-  configMap:
-    # -- Create a new ConfigMap for the config file.
-    create: true
-    # -- Content to assign to the new ConfigMap.  This is passed into `tpl` allowing for templating from values.
-    content: |
-      otelcol.receiver.otlp "otlp_receiver" {
-          // We don't technically need this, but it shows how to change listen address and incoming port.
-          // In this case, the Alloy is listening on all available bindable addresses on port 4317 (which is the
-          // default OTLP gRPC port) for the OTLP protocol.
-          grpc {
-              endpoint = "0.0.0.0:4317"
-          }
+  metrics:
+    enabled: true
+    # dsiable scraping serviceMonitors until we disable prometheus-operator 
+    serviceMonitors:
+      enabled: false
 
-          // We define where to send the output of all ingested traces. In this case, to the OpenTelemetry batch processor
-          // named 'default'.
-          output {
-              traces = [
-                  // Uncomment the next line to generate service graph metrics from the Alloy. By default this is generated
-                  // by the Tempo component, so be sure to remove the relevant configuration in the `tempo/tempo.yaml` file.
-                  //otelcol.connector.servicegraph.tracemetrics.input,
-                  // Uncomment the next line to generate span metrics from the Alloy. By default this is generated
-                  // by the Tempo component, so be sure to remove the relevant configuration in the `tempo/tempo.yaml` file.
-                  //otelcol.connector.spanmetrics.tracemetrics.input,
-                  // The following would be used for tail sampling only traces containing errors.
-                  // Uncomment the following line, then comment out the line below it (the batch processor) to use
-                  // tail sampling.
-                  //otelcol.processor.tail_sampling.errors.input,
-                  otelcol.processor.batch.default.input,
-              ]
-          }
-      }
-
-      // The OpenTelemetry batch processor collects trace spans until a batch size or timeout is met, before sending those
-      // spans onto another target. This processor is labeled 'default'.
-      otelcol.processor.batch "default" {
-          // Wait until we've received 16K of data.
-          send_batch_size = 16384
-          send_batch_max_size = 16384
-          // Or until 2 seconds have elapsed.
-          timeout = "2s"
-          // When the Alloy has enough batched data, send it to the OpenTelemetry exporter named 'tempo'.
-          output {
-              traces = [otelcol.exporter.otlp.tempo.input]
-          }
-      }
-
-      // The OpenTelemetry exporter exports processed trace spans to another target that is listening for OTLP format traces.
-      // A unique label, 'tempo', is added to uniquely identify this exporter.
-      otelcol.exporter.otlp "tempo" {
-          // Define the client for exporting.
-          client {
-              // Send to the locally running Tempo instance, on port 4317 (OTLP gRPC).
-              endpoint = "http://tempo-tempo:4317"
-
-              // Configure TLS settings for communicating with the endpoint.
-              tls {
-                  // The connection is insecure.
-                  insecure = true
-                  // Do not verify TLS certificates when connecting.
-                  insecure_skip_verify = true
-              }
-          }
-      }
-
-    # -- Name of existing ConfigMap to use. Used when create is false.
-    name: null
-    # -- Key in ConfigMap to get config from.
-    key: null
-
-  clustering:
-    # -- Deploy Alloy in a cluster to allow for load distribution.
+  prometheus-operator-crds:
     enabled: false
 
-    # -- Name for the Alloy cluster. Used for differentiating between clusters.
-    name: ""
-
-    # -- Name for the port used for clustering, useful if running inside an Istio Mesh
-    portName: http
-
-  # -- Minimum stability level of components and behavior to enable. Must be
-  # one of "experimental", "public-preview", or "generally-available".
-  stabilityLevel: "generally-available"
-
-  # -- Path to where Grafana Alloy stores data (for example, the Write-Ahead Log).
-  # By default, data is lost between reboots.
-  storagePath: /tmp/alloy
-
-  # -- Address to listen for traffic on. 0.0.0.0 exposes the UI to other
-  # containers.
-  listenAddr: 0.0.0.0
-
-  # -- Port to listen for traffic on.
-  listenPort: 12345
-
-  # -- Scheme is needed for readiness probes. If enabling tls in your configs, set to "HTTPS"
-  listenScheme: HTTP
-
-  # --  Base path where the UI is exposed.
-  uiPathPrefix: /
-
-  # -- Enables sending Grafana Labs anonymous usage stats to help improve Grafana
-  # Alloy.
-  enableReporting: true
-
-  # -- Extra environment variables to pass to the Alloy container.
-  extraEnv: []
-
-  # -- Maps all the keys on a ConfigMap or Secret as environment variables. https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#envfromsource-v1-core
-  envFrom: []
-
-  # -- Extra args to pass to `alloy run`: https://grafana.com/docs/alloy/latest/reference/cli/run/
-  extraArgs: []
-
-  # -- Extra ports to expose on the Alloy container.
-  extraPorts: []
-  # - name: "faro"
-  #   port: 12347
-  #   targetPort: 12347
-  #   protocol: "TCP"
-
-  mounts:
-    # -- Mount /var/log from the host into the container for log collection.
-    varlog: false
-    # -- Mount /var/lib/docker/containers from the host into the container for log
-    # collection.
-    dockercontainers: false
-
-    # -- Extra volume mounts to add into the Grafana Alloy container. Does not
-    # affect the watch container.
-    extra: []
-
-  # -- Security context to apply to the Grafana Alloy container.
-  securityContext:
-    runAsUser: 473
-    runAsGroup: 473
-    runAsNonRoot: true
-    capabilities:
-      drop:
-      - ALL
-
-  # -- Resource requests and limits to apply to the Grafana Alloy container.
-  resources:
-    limits:
-      cpu: 4000m
-      memory: 8000Mi
-    requests:
-      cpu: 2000m
-      memory: 4000Mi
-image:
-  # -- Grafana Alloy image registry (defaults to docker.io)
-  registry: "registry1.dso.mil"
-  # -- Grafana Alloy image repository.
-  repository: ironbank/opensource/grafana/alloy
-  # -- (string) Grafana Alloy image tag. When empty, the Chart's appVersion is
-  # used.
-  tag: "v1.3.1"
-  # -- Grafana Alloy image's SHA256 digest (either in format "sha256:XYZ" or "XYZ"). When set, will override `image.tag`.
-  digest: null
-  # -- Grafana Alloy image pull policy.
-  pullPolicy: IfNotPresent
-  # -- Optional set of image pull secrets.
-  pullSecrets: 
-  - name: private-registry
-
-rbac:
-  # -- Whether to create RBAC resources for Alloy.
-  create: true
-
-serviceAccount:
-  # -- Whether to create a service account for the Grafana Alloy deployment.
-  create: true
-  # -- Additional labels to add to the created service account.
-  additionalLabels: {}
-  # -- Annotations to add to the created service account.
-  annotations: {}
-  # -- The name of the existing service account to use when
-  # serviceAccount.create is false.
-  name: null
-
-# Options for the extra controller used for config reloading.
-configReloader:
-  # -- Enables automatically reloading when the Alloy config changes.
-  enabled: true
-  image:
-    # -- Config reloader image registry (defaults to docker.io)
-    registry: "registry1.dso.mil"
-    # -- Repository to get config reloader image from.
-    repository: ironbank/opensource/jimmidyson/configmap-reload
-    # -- Tag of image to use for config reloading.
-    tag: v0.13.1
-    # -- SHA256 digest of image to use for config reloading (either in format "sha256:XYZ" or "XYZ"). When set, will override `configReloader.image.tag`
-    digest: ""
-  # -- Override the args passed to the container.
-  customArgs: []
-  # -- Resource requests and limits to apply to the config reloader container.
-  resources:
-    requests:
-      cpu: "1m"
-      memory: "5Mi"
-  # -- Security context to apply to the Grafana configReloader container.
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 473
-    runAsGroup: 473
-    capabilities:
-      drop:
-      - ALL
-
-controller:
-  # -- Type of controller to use for deploying Grafana Alloy in the cluster.
-  # Must be one of 'daemonset', 'deployment', or 'statefulset'.
-  type: 'daemonset'
-
-  # -- Number of pods to deploy. Ignored when controller.type is 'daemonset'.
-  replicas: 1
-
-  # -- Annotations to add to controller.
-  extraAnnotations: {}
-
-  # -- Whether to deploy pods in parallel. Only used when controller.type is
-  # 'statefulset'.
-  parallelRollout: true
-
-  # -- Configures Pods to use the host network. When set to true, the ports that will be used must be specified.
-  hostNetwork: false
-
-  # -- Configures Pods to use the host PID namespace.
-  hostPID: false
-
-  # -- Configures the DNS policy for the pod. https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
-  dnsPolicy: ClusterFirst
-
-  # -- Update strategy for updating deployed Pods.
-  updateStrategy: {}
-
-  # -- nodeSelector to apply to Grafana Alloy pods.
-  nodeSelector: {}
-
-  # -- Tolerations to apply to Grafana Alloy pods.
-  tolerations: []
-
-  # -- Topology Spread Constraints to apply to Grafana Alloy pods.
-  topologySpreadConstraints: []
-
-  # -- priorityClassName to apply to Grafana Alloy pods.
-  priorityClassName: ''
-
-  # -- Extra pod annotations to add.
-  podAnnotations: {}
-
-  # -- Extra pod labels to add.
-  podLabels: {}
-
-  # -- Whether to enable automatic deletion of stale PVCs due to a scale down operation, when controller.type is 'statefulset'.
-  enableStatefulSetAutoDeletePVC: false
-
-  autoscaling:
-    # -- Creates a HorizontalPodAutoscaler for controller type deployment.
+  kube-state-metrics:
     enabled: false
-    # -- The lower limit for the number of replicas to which the autoscaler can scale down.
-    minReplicas: 1
-    # -- The upper limit for the number of replicas to which the autoscaler can scale up.
-    maxReplicas: 5
-    # -- Average CPU utilization across all relevant pods, a percentage of the requested value of the resource for the pods. Setting `targetCPUUtilizationPercentage` to 0 will disable CPU scaling.
-    targetCPUUtilizationPercentage: 0
-    # -- Average Memory utilization across all relevant pods, a percentage of the requested value of the resource for the pods. Setting `targetMemoryUtilizationPercentage` to 0 will disable Memory scaling.
-    targetMemoryUtilizationPercentage: 80
 
-    scaleDown:
-      # -- List of policies to determine the scale-down behavior.
-      policies: []
-        # - type: Pods
-        #   value: 4
-        #   periodSeconds: 60
-      # -- Determines which of the provided scaling-down policies to apply if multiple are specified.
-      selectPolicy: Max
-      # -- The duration that the autoscaling mechanism should look back on to make decisions about scaling down.
-      stabilizationWindowSeconds: 300
+  prometheus-node-exporter:
+    enabled: false
 
-    scaleUp:
-      # -- List of policies to determine the scale-up behavior.
-      policies: []
-        # - type: Pods
-        #   value: 4
-        #   periodSeconds: 60
-      # -- Determines which of the provided scaling-up policies to apply if multiple are specified.
-      selectPolicy: Max
-      # -- The duration that the autoscaling mechanism should look back on to make decisions about scaling up.
-      stabilizationWindowSeconds: 0
+  opencost:
+    enabled: false
 
-  # -- Affinity configuration for pods.
-  affinity: {}
-
-  volumes:
-    # -- Extra volumes to add to the Grafana Alloy pod.
-    extra: []
-
-  # -- volumeClaimTemplates to add when controller.type is 'statefulset'.
-  volumeClaimTemplates: []
-
-  ## -- Additional init containers to run.
-  ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
-  ##
-  initContainers: []
-
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 1001
-    runAsGroup: 1001
-    capabilities:
-      drop:
-        - ALL
-
-  # -- Additional containers to run alongside the Alloy container and initContainers.
-  extraContainers: []
-
-service:
-  # -- Creates a Service for the controller's pods.
-  enabled: true
-  # -- Service type
-  type: ClusterIP
-  # -- NodePort port. Only takes effect when `service.type: NodePort`
-  nodePort: 31128
-  # -- Cluster IP, can be set to None, empty "" or an IP address
-  clusterIP: ''
-  # -- Value for internal traffic policy. 'Cluster' or 'Local'
-  internalTrafficPolicy: Cluster
-  annotations: {}
-    # cloud.google.com/load-balancer-type: Internal
-
-serviceMonitor:
-  enabled: false
-  # -- Additional labels for the service monitor.
-  additionalLabels: {}
-  # -- Scrape interval. If not set, the Prometheus default scrape interval is used.
-  interval: ""
-  # -- MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
-  # ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
-  metricRelabelings: []
-  # - action: keep
-  #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
-  #   sourceLabels: [__name__]
-
-  # -- Customize tls parameters for the service monitor
-  tlsConfig: {}
-
-  # -- RelabelConfigs to apply to samples before scraping
-  # ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
-  relabelings: []
-  # - sourceLabels: [__meta_kubernetes_pod_node_name]
-  #   separator: ;
-  #   regex: ^(.*)$
-  #   targetLabel: nodename
-  #   replacement: $1
-  #   action: replace
-ingress:
-  # -- Enables ingress for Alloy (Faro port)
-  enabled: false
-  # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
-  # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-  # ingressClassName: nginx
-  # Values can be templated
-  annotations:
-    {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  labels: {}
-  path: /
-  faroPort: 12347
-
-  # pathType is only for k8s >= 1.1=
-  pathType: Prefix
-
-  hosts:
-    - chart-example.local
-  ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
-  extraPaths: []
-  # - path: /*
-  #   backend:
-  #     serviceName: ssl-redirect
-  #     servicePort: use-annotation
-  ## Or for k8s > 1.19
-  # - path: /*
-  #   pathType: Prefix
-  #   backend:
-  #     service:
-  #       name: ssl-redirect
-  #       port:
-  #         name: use-annotation
-
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 networkPolicies:
   # -- Toggle networkPolicies
@@ -442,6 +71,20 @@ istio:
   # -- Default peer authentication values
   hardened:
     enabled: false
+    outboundTrafficPolicyMode: "REGISTRY_ONLY"
+    customServiceEntries: []
+      # - name: "allow-google"
+      #   enabled: true
+      #   spec:
+      #     hosts:
+      #       - google.com
+      #     location: MESH_EXTERNAL
+      #     ports:
+      #       - number: 443
+      #         protocol: TLS
+      #         name: https
+      #     resolution: DNS
+
   mtls:
     # -- STRICT = Allow only mutual TLS traffic,
     # PERMISSIVE = Allow both plain text and mutual TLS traffic

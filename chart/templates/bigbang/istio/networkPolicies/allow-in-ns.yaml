@@ -5,7 +5,9 @@ metadata:
   name: allow-in-ns-{{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
-  podSelector: {}
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: alloy
   policyTypes:
     - Ingress
     - Egress

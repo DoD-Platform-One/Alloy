@@ -4,6 +4,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.5.0-bb.0] - 2024-09-09
+
+### Changes
+
+- migrated alloy install from forked alloy chart for k8s-monitoring wrapper chart
+
+## [0.6.1-bb.1] - 2024-08-30
+
+### Added
+
+- Add istio sidecar for egress whitelist
+
 ## [0.6.1-bb.0] - 2024-08-29
 ### Enhancements
 - Add the ability to set --cluster.name in the Helm chart with alloy.clustering.name.

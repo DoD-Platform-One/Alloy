@@ -1,9 +1,9 @@
 dependencies:
-- name: crds
-  repository: ""
-  version: 0.0.0
+- name: k8s-monitoring
+  repository: https://grafana.github.io/helm-charts
+  version: 1.5.0
 - name: gluon
   repository: oci://registry1.dso.mil/bigbang
   version: 0.5.3
-digest: sha256:1d644dbb6d3a5bf01e7bd9cf98a308a049bcf6e8dad454fda57efac56cd3c066
-generated: "2024-08-14T06:04:57.213338506Z"
+digest: sha256:c07d3f7ba840c6056753179a876443bedf7835f894c068c4ed5a7f020f69744b
+generated: "2024-09-06T15:45:51.271712-04:00"

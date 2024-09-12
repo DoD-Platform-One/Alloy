@@ -18,7 +18,7 @@ k8s-monitoring:
 
   externalServices:
     prometheus:
-      host: monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090
+      host: http://monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090
       authMode: none
     loki:
       host: logging-loki.logging.svc.cluster.local:3100
@@ -103,7 +103,7 @@ k8s-monitoring:
 
   metrics:
     enabled: true
-    # dsiable scraping serviceMonitors until we disable prometheus-operator 
+    # disable scraping serviceMonitors until we disable prometheus-operator
     serviceMonitors:
       enabled: false
 
@@ -131,6 +131,40 @@ networkPolicies:
   # Used by package NetworkPolicies to allow Kube API access
   controlPlaneCidr: 0.0.0.0/0
   additionalPolicies: []
+
+  # -- NetworkPolicy selectors and ports for
+  # egress to downstream telemetry ingestion services.
+  # These should be uncommented and overridden if any
+  # of these values deviate from the Big Bang defaults.
+  egress: {}
+    #
+    # prometheus:
+    #   ports:
+    #     - 9090
+    #   namespaceSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: monitoring
+    #   podSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: prometheus
+    # loki:
+    #   ports:
+    #     - 3100
+    #   namespaceSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: logging
+    #   podSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: loki-logging
+    # tempo:
+    #   ports:
+    #     - 4317
+    #   namespaceSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: tempo
+    #   podSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: tempo
 
 istio:
   enabled: false

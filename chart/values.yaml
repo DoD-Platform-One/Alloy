@@ -8,6 +8,13 @@ k8s-monitoring:
       registry: "registry1.dso.mil"
       pullSecrets:
       - name: private-registry
+    podSecurityContext:
+      runAsUser: 473
+      runAsGroup: 473
+      fsGroup: 473
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
 
   externalServices:
     prometheus:
@@ -28,6 +35,62 @@ k8s-monitoring:
     configReloader:
       image:
         repository: "ironbank/opensource/jimmidyson/configmap-reload"
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+    alloy:
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+    controller:
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+
+  alloy-logs:
+    image:
+      repository: "ironbank/opensource/grafana/alloy"
+    configReloader:
+      image:
+        repository: "ironbank/opensource/jimmidyson/configmap-reload"
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+    alloy:
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+    controller:
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+
+  alloy-events:
+    image:
+      repository: "ironbank/opensource/grafana/alloy"
+    configReloader:
+      image:
+        repository: "ironbank/opensource/jimmidyson/configmap-reload"
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+    alloy:
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+    controller:
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
 
   traces:
     enabled: true
@@ -56,6 +119,9 @@ k8s-monitoring:
   opencost:
     enabled: false
 
+# Disabled until securityContext is added to the validator pod so that it doesn't fail the kyverno-policy capabilities and runAsNonRoot
+configValidator:
+  enabled: false
 
 networkPolicies:
   # -- Toggle networkPolicies

@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 1.5.0-bb.1](https://img.shields.io/badge/Version-1.5.0--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.8.1](https://img.shields.io/badge/AppVersion-2.8.1-informational?style=flat-square)
+![Version: 1.5.0-bb.2](https://img.shields.io/badge/Version-1.5.0--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.8.1](https://img.shields.io/badge/AppVersion-2.8.1-informational?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -48,7 +48,7 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.global.podSecurityContext.fsGroup | int | `473` |  |
 | k8s-monitoring.global.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | k8s-monitoring.global.podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
-| k8s-monitoring.externalServices.prometheus.host | string | `"monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090"` |  |
+| k8s-monitoring.externalServices.prometheus.host | string | `"http://monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090"` |  |
 | k8s-monitoring.externalServices.prometheus.authMode | string | `"none"` |  |
 | k8s-monitoring.externalServices.loki.host | string | `"logging-loki.logging.svc.cluster.local:3100"` |  |
 | k8s-monitoring.externalServices.loki.authMode | string | `"none"` |  |
@@ -79,11 +79,11 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.kube-state-metrics.enabled | bool | `false` |  |
 | k8s-monitoring.prometheus-node-exporter.enabled | bool | `false` |  |
 | k8s-monitoring.opencost.enabled | bool | `false` |  |
-| configValidator.enabled | bool | `false` |  |
+| k8s-monitoring.configValidator.enabled | bool | `false` |  |
 | networkPolicies.enabled | bool | `false` | Toggle networkPolicies |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Control Plane CIDR, defaults to 0.0.0.0/0, use `kubectl get endpoints -n default kubernetes` to get the CIDR range needed for your cluster Must be an IP CIDR range (x.x.x.x/x - ideally with /32 for the specific IP of a single endpoint, broader range for multiple masters/endpoints) Used by package NetworkPolicies to allow Kube API access |
-| networkPolicies.egress | object | `{}` | NetworkPolicy selectors and ports for egress to downstream telemetry ingestion services. These should be uncommented and overridden if any of these values deviate from the Big Bang defaults. |
 | networkPolicies.additionalPolicies | list | `[]` |  |
+| networkPolicies.egress | object | `{}` | NetworkPolicy selectors and ports for egress to downstream telemetry ingestion services. These should be uncommented and overridden if any of these values deviate from the Big Bang defaults. |
 | istio.enabled | bool | `false` |  |
 | istio.hardened | object | `{"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"}` | Default peer authentication values |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |

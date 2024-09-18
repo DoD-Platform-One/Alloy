@@ -4,6 +4,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.5.0-bb.3] - 2024-09-16
+
+### Added
+
+- Added a new `NetworkPolicy` for OTLP ingress into alloy from any source
+
+### Changes
+
+- Updated bundled `values.yaml` to set prometheus write path to `/api/v1/write`
+
 ## [1.5.0-bb.2] - 2024-09-12
 
 ### Changes
@@ -29,11 +39,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Add istio sidecar for egress whitelist
 
 ## [0.6.1-bb.0] - 2024-08-29
+
 ### Enhancements
+
 - Add the ability to set --cluster.name in the Helm chart with alloy.clustering.name.
 
 ## [0.6.0-bb.2] - 2024-08-27
+
 ### Changed
+
 - ironbank/opensource/grafana/alloy updated from v1.3.0 to v1.3.1
 
 ## [0.6.0-bb.1] - 2024-08-22

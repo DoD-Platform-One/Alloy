@@ -20,6 +20,7 @@ k8s-monitoring:
     prometheus:
       host: http://monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090
       authMode: none
+      writeEndpoint: /api/v1/write
     loki:
       host: logging-loki.logging.svc.cluster.local:3100
       authMode: none

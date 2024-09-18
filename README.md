@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 1.5.0-bb.2](https://img.shields.io/badge/Version-1.5.0--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.8.1](https://img.shields.io/badge/AppVersion-2.8.1-informational?style=flat-square)
+![Version: 1.5.0-bb.3](https://img.shields.io/badge/Version-1.5.0--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.8.1](https://img.shields.io/badge/AppVersion-2.8.1-informational?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -50,6 +50,7 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.global.podSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
 | k8s-monitoring.externalServices.prometheus.host | string | `"http://monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090"` |  |
 | k8s-monitoring.externalServices.prometheus.authMode | string | `"none"` |  |
+| k8s-monitoring.externalServices.prometheus.writeEndpoint | string | `"/api/v1/write"` |  |
 | k8s-monitoring.externalServices.loki.host | string | `"logging-loki.logging.svc.cluster.local:3100"` |  |
 | k8s-monitoring.externalServices.loki.authMode | string | `"none"` |  |
 | k8s-monitoring.externalServices.tempo.host | string | `"tempo-tempo.tempo.svc.cluster.local:4317"` |  |

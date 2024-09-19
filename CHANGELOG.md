@@ -4,6 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.5.0-bb.4] - 2024-09-19
+
+### Changes
+
+- Updated links and documenataion to reference dependency chart values
+
 ## [1.5.0-bb.3] - 2024-09-16
 
 ### Added

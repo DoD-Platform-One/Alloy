@@ -2,34 +2,15 @@
 
 ## To upgrade the Alloy Package
 
-1. Navigate to the upstream [chart repo and folder](https://github.com/grafana/alloy/tree/main/operations/helm/charts/alloy) and find the tag that corresponds with the new chart version for this update.
+1. Navigate to the upstream [chart repo and folder](https://github.com/grafana/k8s-monitoring-helm) and find the tag that corresponds with the new chart version for this update.
 
-    - Check the [upstream changelog](https://github.com/grafana/alloy/blob/main/CHANGELOG.md) for upgrade notices.
+    - Check the [upstream changelog](https://github.com/grafana/k8s-monitoring-helm/releases) for upgrade notices.
 
 2. Checkout the `renovate/ironbank` branch
 
-3. From the root of the repo run `kpt pkg update chart@helm-chart/<tag> --strategy alpha-git-patch`, where tag is found in step 1 (alloy ref: `<tag>`) for example, `helm-chart/0.6.0`
+3. Modify the version in `Chart.yaml` and append `-bb.0` to the chart version from upstream.
 
-    - Run a KPT update against the main chart folder:
-
-    ```shell
-      kpt pkg update chart@<tag> --strategy alpha-git-patch
-    ```
-
-    - Restore all BigBang added templates and tests:
-
-    ```shell
-      git checkout chart/templates/bigbang/
-      git checkout chart/tests/
-      git checkout chart/dashboards
-      git checkout chart/templates/tests
-    ```
-
-    - Follow the [Update main chart](#update-main-chart) section of this document for a list of changes per file to be aware of, for how Big Bang differs from upstream.
-
-4. Modify the version in `Chart.yaml` and append `-bb.0` to the chart version from upstream.
-
-5. Update dependencies and binaries using `helm dependency update ./chart`
+4. Update dependencies and binaries using `helm dependency update ./chart`
 
     - If needed, log into registry1.
 
@@ -46,7 +27,6 @@
       ```shell
       # Note: You may need to resolve merge conflicts in chart/values.yaml before these commands work. Refer to the "Modifications made to upstream"
       # section below for hinsts on how to resolve them. Also, you need to be logged in to registry1 thorough docker.
-      export HELM_EXPERIMENTAL_OCI=1
       helm dependency update ./chart
       ```
 
@@ -56,11 +36,11 @@
       helm registry logout https://registry1.dso.mil
       ```
 
-6. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`).
+5. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`).
 
-7. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
+6. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
 
-8. Push up your changes, add upgrade notices if applicable, validate that CI passes.
+7. Push up your changes, add upgrade notices if applicable, validate that CI passes.
 
     - If there are any failures, follow the information in the pipeline to make the necessary updates.
 
@@ -68,71 +48,64 @@
 
     - Reach out to the CODEOWNERS if needed.
 
-9. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages. 
+8. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages. 
 
     - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Alloy enabled (the below is a reference, actual changes could be more depending on what changes where made to Alloy in the package MR).
 
 ### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
-    ```yaml
-    alloy:
-      enabled: true
-      git:
-        tag: null
-        branch: <my-package-branch-that-needs-testing>
-      values:
-        istio:
-          hardened:
-            enabled: true
-      ### Additional compononents of Loki should be changed to reflect testing changes introduced in the package MR
-    ```
 
+```yaml
+  alloy:
+    enabled: true
+    git:
+      tag: null
+      branch: <my-package-branch-that-needs-testing>
+    values:
+      istio:
+        hardened:
+          enabled: true
+    ### Additional compononents of Loki should be changed to reflect testing changes introduced in the package MR
+```
 
-10. Follow the `Testing new Alloy Version` section of this document for manual testing.
+9. Follow the `Testing new Alloy Version` section of this document for manual testing.
 
 ## Update main chart
 
 ### ```chart/Chart.yaml```
 
-- update loki `version` and `appVersion`
+- update k8s-monitoring `version` and `appVersion`
 - Ensure Big Bang version suffix is appended to chart version
 - Ensure gluon dependencies are present and up to date
 
   ```yaml
+    apiVersion: v2
+    name: k8s-monitoring
+    description: A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
+    type: application
     version: $VERSION-bb.0
+    appVersion: $K8S_MONITORING_APPVERSION
+    icon: https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg
+    sources:
+      - https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring
     annotations:
-    bigbang.dev/applicationVersions: |
+      bigbang.dev/applicationVersions: |
         - Alloy: '$ALLOY_APP_VERSION'
-    helm.sh/images: |
+        - k8s-monitoring: '$K8S_MONITORING_VERSION'
+      helm.sh/images: |
         - name: alloy
-        image: registry1.dso.mil/ironbank/opensource/grafana/alloy:$ALLOY_APP_VERSION
+          image: registry1.dso.mil/ironbank/opensource/grafana/alloy:$ALLOY_APP_VERSION
         - name: configmap-reload
-        image: registry1.dso.mil/ironbank/opensource/jimmidyson/configmap-reload:$ALLOY_APP_VERSION
-    bigbang.dev/upstreamReleaseNotesMarkdown: |
-        - [Find our upstream chart's CHANGELOG here](https://github.com/grafana/alloy/blob/main/CHANGELOG.md)
+          image: registry1.dso.mil/ironbank/opensource/jimmidyson/configmap-reload:$CONFIGMAP_RELOAD_APP_VERSION
+      bigbang.dev/upstreamReleaseNotesMarkdown: |
+        - [Find our upstream chart's CHANGELOG here](https://github.com/grafana/k8s-monitoring-helm/releases/)
         - [and our upstream application release notes here](https://github.com/grafana/alloy/blob/main/docs/sources/release-notes.md?plain=1)
     dependencies:
-    - name: crds
-        version: "0.0.0"
-        condition: crds.create
-    - name: gluon
+      - name: k8s-monitoring
+        version: "1.5.0"
+        repository: https://grafana.github.io/helm-charts
+      - name: gluon
         version: "$GLUON_VERSION"
-        repository: "oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon"
-  ```
-
-### ```chart/values.yaml```
-
-- Verify that Renovate updated the alloy: section with the correct value for  `tag`. For example, if Renovate wants to update Alloy to version `1.3.0`, you should see:
-
-  ```yaml
-  addons:
-     alloy:
-        image:
-        # -- The Docker registry
-        registry: registry1.dso.mil
-        # -- Docker image repository
-        repository: ironbank/opensource/grafana/alloy
-        # -- Overrides the image tag whose default is the chart's appVersion
-        tag: 1.3.0
+        repository: oci://registry1.dso.mil/bigbang
   ```
 
 ## Modifications made to upstream
@@ -140,112 +113,6 @@
 This is a high-level list of modifications that Big Bang has made to the upstream helm chart. You can use this as as cross-check to make sure that no modifications were lost during the upgrade process.
 
 ### ```chart/values.yaml```
-
-- Ensure securityContext is set
-
-  ```yaml
-  alloy:
-    ...
-    securityContext:
-      capabilities:
-      drop:
-        - ALL
-      runAsGroup: 473
-      runAsNonRoot: true
-      runAsUser: 473
-  ```
-
-- Ensure configReloader/image `registry` and `repo` is set
-
-  ```yaml
-  configReloader:
-    ...
-    image:
-      registry: registry1.dso.mil
-      repository: ironbank/opensource/jimmidyson/configmap-reload
-  ```
-
-- Ensure securityContext is set for `configReloader`
-
-  ```yaml
-  configReloader:
-    ...
-    securityContext:
-      capabilities:
-      drop:
-        - ALL
-      runAsGroup: 473
-      runAsNonRoot: true
-      runAsUser: 473
-  ```
-
-- Ensure securityContext is set for `controller`
-
-  ```yaml
-  controller:
-    ...
-    securityContext:
-      capabilities:
-        drop:
-          - ALL
-      runAsGroup: 1001
-      runAsNonRoot: true
-      runAsUser: 1001
-  ```
-
-- Ensure the global/image/pullsecrets is set
-
-  ```yaml
-  image:
-    pullSecrets:
-      - name: private-registry
-    registry: registry1.dso.mil
-  podSecurityContext:
-    fsGroup: 473
-    runAsGroup: 473
-    runAsNonRoot: true
-    runAsUser: 473
-    seccompProfile:
-      type: RuntimeDefault
-  ```
-
-- Ensure global/image is set
-
-  ```yaml
-  global:
-    image:
-      pullSecrets:
-        - name: private-registry
-      registry: registry1.dso.mil
-    podSecurityContext:
-      fsGroup: 473
-      runAsGroup: 473
-      runAsNonRoot: true
-      runAsUser: 473
-      seccompProfile:
-        type: RuntimeDefault
-  image:
-    global:
-      image:
-        pullSecrets:
-          - name: private-registry
-        registry: registry1.dso.mil
-      podSecurityContext:
-        fsGroup: 473
-        runAsGroup: 473
-        runAsNonRoot: true
-        runAsUser: 473
-        seccompProfile:
-          type: RuntimeDefault
-    image:
-      digest: null
-      pullPolicy: IfNotPresent
-      pullSecrets:
-        - name: private-registry
-      registry: registry1.dso.mil
-      repository: ironbank/opensource/grafana/alloy
-      tag: v1.2.1
-  ```
 
 - Ensure istio defaults are set
 

@@ -126,6 +126,14 @@ k8s-monitoring:
   configValidator:
     enabled: false
 
+  # Disabled until securityContext is added to the config pod so that it doesn't fail the kyverno-policy capabilities and runAsNonRoot
+  configAnalysis:
+    enabled: false
+
+  # Disabled until securityContext is added to the test job so that it doesn't fail the kyverno-policy capabilities and runAsNonRoot
+  test:
+    enabled: false
+
 networkPolicies:
   # -- Toggle networkPolicies
   enabled: false

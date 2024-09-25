@@ -10,7 +10,6 @@ sources:
 annotations:
   bigbang.dev/applicationVersions: |
     - Alloy: 'v1.3.1'
-    - k8s-monitoring: 'v2.8.1'
   helm.sh/images: |
     - name: alloy
       image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.3.1

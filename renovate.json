@@ -6,7 +6,7 @@
     "draftPR": true,
     "enabledManagers": ["regex", "helmv3", "helm-values"],
     "ignorePaths": ["chart/charts/**"],
-    "labels": ["renovate", "kind::maintenance"],
+    "labels": ["alloy", "renovate", "kind::maintenance", "team::Observability"],
     "packageRules": [
         {
           "matchDatasources": ["docker"],
@@ -20,14 +20,25 @@
             ],
             "fileFilters": ["chart/Chart.yaml", "README.md", "CHANGELOG.md"]
           }
+        },
+        {
+            "matchDatasources": ["helm"],
+            "groupName": "Ironbank",
+            "postUpgradeTasks": {
+              "commands": [
+                  "match-chart-yaml-appversion",
+                  "regenerate-helm-docs",
+                  "bump-changelog '- {{{replace 'registry1.dso.mil/' '' depName}}} updated from {{{currentVersion}}} to {{{newVersion}}}'"
+              ],
+              "fileFilters": ["chart/Chart.yaml", "README.md", "CHANGELOG.md"]
+            }
         }
       ],
     "regexManagers": [
         {
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
-                "- Alloy:\\s+(?<currentValue>.+)",
-                "appVersion:\\s+(?<currentValue>.+)" 
+                "- Alloy:\\s+(?<currentValue>.+)"
             ],
             "depNameTemplate": "registry1.dso.mil/ironbank/opensource/grafana/alloy",
             "datasourceTemplate": "docker"
@@ -38,6 +49,15 @@
                 "image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"
             ],
             "datasourceTemplate": "docker"
+        },
+        {
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": [
+                "version:\\s+(?<currentValue>.+)-bb\\.\\d+"
+            ],
+            "depNameTemplate": "k8s-monitoring",
+            "datasourceTemplate": "helm",
+            "registryUrlTemplate": "https://grafana.github.io/helm-charts"
         }
     ],
     "separateMajorMinor": false,

@@ -122,15 +122,12 @@ k8s-monitoring:
   opencost:
     enabled: false
 
-  # Disabled until securityContext is added to the validator pod so that it doesn't fail the kyverno-policy capabilities and runAsNonRoot
   configValidator:
     enabled: false
 
-  # Disabled until securityContext is added to the config pod so that it doesn't fail the kyverno-policy capabilities and runAsNonRoot
   configAnalysis:
     enabled: false
 
-  # Disabled until securityContext is added to the test job so that it doesn't fail the kyverno-policy capabilities and runAsNonRoot
   test:
     enabled: false
 

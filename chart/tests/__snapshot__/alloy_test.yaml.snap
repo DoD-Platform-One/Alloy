@@ -1,0 +1,85 @@
+should match snapshot of default values:
+  1: |
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: alloy
+      name: alloy
+      namespace: NAMESPACE
+    spec:
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: alloy
+          app.kubernetes.io/name: alloy
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: alloy
+          app.kubernetes.io/instance: alloy
+          app.kubernetes.io/name: alloy
+          version: v1.2.1
+        annotations:
+          kubectl.kubernetes.io/default-container: alloy
+        spec:
+          volumes:
+            - name: config
+              configMap:
+                name: monitoring-alloy
+                defaultMode: 420
+          containers:
+            - name: alloy
+              image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.2.1
+              args:
+                - run
+                - /etc/alloy/config.alloy
+                - '--storage.path=/tmp/alloy'
+                - '--server.http.listen-addr=0.0.0.0:12345'
+                - '--server.http.ui-path-prefix=/'
+                - '--cluster.enabled=true'
+                - '--cluster.join-addresses=monitoring-alloy-cluster'
+                - '--stability.level=generally-available'
+              ports:
+                - name: http-metrics
+                  containerPort: 12345
+                  protocol: TCP
+              env:
+                - name: ALLOY_DEPLOY_MODE
+                  value: helm
+                - name: HOSTNAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: spec.nodeName
+              resources: {}
+              volumeMounts:
+                - name: config
+                  mountPath: /etc/alloy
+              readinessProbe:
+                httpGet:
+                  path: /-/ready
+                  port: 12345
+                  scheme: HTTP
+                initialDelaySeconds: 10
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              imagePullPolicy: IfNotPresent
+              securityContext:
+                capabilities:
+                  drop:
+                    - ALL
+                runAsUser: 473
+                runAsGroup: 473
+                runAsNonRoot: true
+          dnsPolicy: ClusterFirst
+          hostNetwork: false
+          serviceAccountName: monitoring-alloy

@@ -1,3 +1,6 @@
+bbtests:
+  enabled: true
+
 alloy:
   # -- Resource requests and limits to apply to the Grafana Alloy container.
   resources:
@@ -7,3 +10,13 @@ alloy:
     requests:
       cpu: 1000m
       memory: 2000Mi
+
+k8s-monitoring:
+  configValidator:
+    enabled: true
+
+  configAnalysis:
+    enabled: true
+
+  test:
+    enabled: true

@@ -4,7 +4,7 @@
     "dependencyDashboard": true,
     "dependencyDashboardTitle": "Renovate: Upgrade Alloy Package Dependencies",
     "draftPR": true,
-    "enabledManagers": ["regex", "helmv3", "helm-values"],
+    "enabledManagers": ["regex", "helmv3"],
     "ignorePaths": ["chart/charts/**"],
     "labels": ["alloy", "renovate", "kind::maintenance", "team::Observability"],
     "packageRules": [
@@ -26,9 +26,6 @@
             "groupName": "Ironbank",
             "postUpgradeTasks": {
               "commands": [
-                  "match-chart-yaml-appversion",
-                  "regenerate-helm-docs",
-                  "bump-changelog '- {{{replace 'registry1.dso.mil/' '' depName}}} updated from {{{currentVersion}}} to {{{newVersion}}}'"
               ],
               "fileFilters": ["chart/Chart.yaml", "README.md", "CHANGELOG.md"]
             }
@@ -38,7 +35,7 @@
         {
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
-                "- Alloy:\\s+(?<currentValue>.+)"
+                "- Alloy:\\s'v(?<currentValue>.+)'"
             ],
             "depNameTemplate": "registry1.dso.mil/ironbank/opensource/grafana/alloy",
             "datasourceTemplate": "docker"

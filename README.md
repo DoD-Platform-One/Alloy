@@ -1,13 +1,13 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 1.5.0-bb.6](https://img.shields.io/badge/Version-1.5.0--bb.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.8.1](https://img.shields.io/badge/AppVersion-2.8.1-informational?style=flat-square)
+![Version: 1.5.0-bb.7](https://img.shields.io/badge/Version-1.5.0--bb.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
 ## Upstream References
 
-* <https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring>
+* <https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring-v1>
 
 ### Upstream Release Notes
 
@@ -40,7 +40,7 @@ helm install k8s-monitoring chart/
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| k8s-monitoring | object | Our overrides are defined in charts/values.yaml file. | See https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring/values.yaml for available values. |
+| k8s-monitoring | object | Our overrides are defined in charts/values.yaml file. | See https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring-v1/values.yaml for available values. |
 | networkPolicies.enabled | bool | `false` | Toggle networkPolicies |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Control Plane CIDR, defaults to 0.0.0.0/0, use `kubectl get endpoints -n default kubernetes` to get the CIDR range needed for your cluster Must be an IP CIDR range (x.x.x.x/x - ideally with /32 for the specific IP of a single endpoint, broader range for multiple masters/endpoints) Used by package NetworkPolicies to allow Kube API access |
 | networkPolicies.additionalPolicies | list | `[]` |  |

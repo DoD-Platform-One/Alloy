@@ -31,16 +31,19 @@
             }
         }
       ],
-    "regexManagers": [
+      "regexManagers": [
         {
+            "description": "Update chart annotations - bigbang.dev/applicationVersions:",
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
-                "- Alloy:\\s'v(?<currentValue>.+)'"
+                "- Alloy:\\s'v(?<currentValue>.+)'",
+                "appVersion:\\s+(?<currentValue>.+)" 
             ],
             "depNameTemplate": "registry1.dso.mil/ironbank/opensource/grafana/alloy",
             "datasourceTemplate": "docker"
         },
         {
+            "description": "Update docker image references",
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
                 "image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"
@@ -48,6 +51,7 @@
             "datasourceTemplate": "docker"
         },
         {
+            "description": "Update k8s-monitoring version",
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
                 "version:\\s+(?<currentValue>.+)-bb\\.\\d+"
@@ -57,6 +61,5 @@
             "registryUrlTemplate": "https://grafana.github.io/helm-charts"
         }
     ],
-    "separateMajorMinor": false,
-    "postUpdateOptions": ["helmUpdateSubChartArchives"]
+    "separateMajorMinor": false
 }

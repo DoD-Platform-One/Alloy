@@ -13,7 +13,11 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
 
 3. Modify the version in `Chart.yaml` and append `-bb.0` to the chart version from upstream.
 
-4. Update dependencies and binaries using `helm dependency update ./chart`
+4. Make sure the `annotations`, `bigbang.dev/applicationVersions: |` alloy version is consistent with what is in `helm.sh/images: |`.
+
+5. Update the `./chart/values.yaml` file `alloy.image.tag` and `alloy.configReloader.image.tag` values to match their respective tags in `helm.sh/images:` in `./chart/Chart.yaml`
+
+6. Update dependencies and binaries using `helm dependency update ./chart`
 
     - If needed, log into registry1.
 
@@ -39,11 +43,11 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
       helm registry logout https://registry1.dso.mil
       ```
 
-5. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`).
+7. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`).
 
-6. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
+8. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
 
-7. Push up your changes, add upgrade notices if applicable, validate that CI passes.
+9. Push up your changes, add upgrade notices if applicable, validate that CI passes.
 
     - If there are any failures, follow the information in the pipeline to make the necessary updates.
 
@@ -51,7 +55,7 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
 
     - Reach out to the CODEOWNERS if needed.
 
-8. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages. 
+10. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages. 
 
     - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Alloy enabled (the below is a reference, actual changes could be more depending on what changes where made to Alloy in the package MR).
 
@@ -70,7 +74,7 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
     ### Additional compononents of Loki should be changed to reflect testing changes introduced in the package MR
 ```
 
-9. Follow the `Testing new Alloy Version` section of this document for manual testing.
+11. Follow the `Testing new Alloy Version` section of this document for manual testing.
 
 ## Update main chart
 

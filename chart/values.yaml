@@ -35,7 +35,7 @@ k8s-monitoring:
   alloy:
     image:
       repository: "ironbank/opensource/grafana/alloy"
-      tag: "v1.3.1"
+      tag: "v1.4.2"
     configReloader:
       image:
         repository: "ironbank/opensource/jimmidyson/configmap-reload"

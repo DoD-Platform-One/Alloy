@@ -5,7 +5,9 @@
 [!IMPORTANT]
 Please note that Alloy renovate updates will be unique compared to other BigBang renovate updates because Alloy is a wrapper package
 
-1. Navigate to the upstream [chart repo and folder](https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring) and find the tag that corresponds with the new chart version for this update.
+> Renovate doesn't fully automate this yet for Alloy, please validate all tags for the new chart version.
+
+1. Navigate to the upstream [chart repo and folder](https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring-v1) and find the appropriate tags that corresponds with the new chart version for this update.
 
     - Check the [upstream changelog](https://github.com/grafana/k8s-monitoring-helm/releases) for upgrade notices.
 

@@ -2,17 +2,17 @@ apiVersion: v2
 name: k8s-monitoring
 description: A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 type: application
-version: 1.5.4-bb.1
+version: 1.6.0-bb.0
 appVersion: 2.8.3
 icon: https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg
 sources:
   - https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring-v1
 annotations:
   bigbang.dev/applicationVersions: |
-    - Alloy: v1.3.1
+    - Alloy: v1.4.2
   helm.sh/images: |
     - name: alloy
-      image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.3.1
+      image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.4.2
     - name: configmap-reload
       image: registry1.dso.mil/ironbank/opensource/jimmidyson/configmap-reload:v0.12.0
   bigbang.dev/upstreamReleaseNotesMarkdown: |
@@ -20,7 +20,7 @@ annotations:
     - [and Grafana Alloy's release notes here](https://grafana.com/docs/alloy/latest/release-notes/)
 dependencies:
   - name: k8s-monitoring
-    version: "1.5.4"
+    version: "1.6.0"
     repository: https://grafana.github.io/helm-charts
     import-values:
       - child: receivers.grpc
@@ -28,5 +28,5 @@ dependencies:
       - child: receivers.http
         parent: k8sMonitoringValues.receivers.http
   - name: gluon
-    version: "0.5.4"
+    version: "0.5.8"
     repository: oci://registry1.dso.mil/bigbang

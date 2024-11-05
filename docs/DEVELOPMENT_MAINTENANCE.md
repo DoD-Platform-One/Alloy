@@ -15,6 +15,13 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
 
 3. Modify the version in `Chart.yaml` and append `-bb.0` to the chart version from upstream.
 
+4. Find the correct matching sub-dependency versions for the correct alloy subchart version (ex: 1.6.4). Usually in these locations:
+- k8s-monitoring-v1 [1.6.4 chart](https://github.com/grafana/k8s-monitoring-helm/blob/v1.6.4/charts/k8s-monitoring-v1/Chart.yaml)
+- check appVersion in chart and make sure it is updated
+- alloy helm chart tag from dependency [0.9.1 chart values](https://github.com/grafana/alloy/blob/helm-chart/0.9.1/operations/helm/charts/alloy/values.yaml)
+  - [0.9.1 chart appVersion 1.4.2](https://github.com/grafana/alloy/blob/helm-chart/0.9.1/operations/helm/charts/alloy/Chart.yaml)
+  - [0.9.1 values configmap v0.12.0](https://github.com/grafana/alloy/blob/helm-chart/0.9.1/operations/helm/charts/alloy/values.yaml#L157)
+
 4. Make sure the `annotations`, `bigbang.dev/applicationVersions: |` alloy version is consistent with what is in `helm.sh/images: |`.
 
 5. Update the `./chart/values.yaml` file `alloy.image.tag` and `alloy.configReloader.image.tag` values to match their respective tags in `helm.sh/images:` in `./chart/Chart.yaml`

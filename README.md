@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 1.6.4-bb.2](https://img.shields.io/badge/Version-1.6.4--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.8.5](https://img.shields.io/badge/AppVersion-2.8.5-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.6.4-bb.3](https://img.shields.io/badge/Version-1.6.4--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.8.5](https://img.shields.io/badge/AppVersion-2.8.5-informational?style=flat-square) [![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)](https://repo1.dso.mil/big-bang/product/bbtoc/-/blob/main/process/Package%20Maintenance%20Tracks.md)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -42,7 +42,7 @@ helm install k8s-monitoring chart/
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| k8s-monitoring | object | Our overrides are defined in charts/values.yaml file. | See https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring/values.yaml for available values. |
+| k8s-monitoring | object | Our overrides are defined in charts/values.yaml file. | See https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring-v1/values.yaml for available values. |
 | networkPolicies.enabled | bool | `false` | Toggle networkPolicies |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Control Plane CIDR, defaults to 0.0.0.0/0, use `kubectl get endpoints -n default kubernetes` to get the CIDR range needed for your cluster Must be an IP CIDR range (x.x.x.x/x - ideally with /32 for the specific IP of a single endpoint, broader range for multiple masters/endpoints) Used by package NetworkPolicies to allow Kube API access |
 | networkPolicies.additionalPolicies | list | `[]` |  |

@@ -52,7 +52,7 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
       helm registry logout https://registry1.dso.mil
       ```
 
-7. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`).
+7. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`). Also, make sure the configloader versions are accurate if updated.
 
 8. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
 

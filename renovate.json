@@ -1,65 +1,63 @@
 {
-    "baseBranches": ["main"],
-    "configWarningReuseIssue": false,
-    "dependencyDashboard": true,
-    "dependencyDashboardTitle": "Renovate: Upgrade Alloy Package Dependencies",
-    "draftPR": true,
-    "enabledManagers": ["regex", "helmv3"],
-    "ignorePaths": ["chart/charts/**"],
-    "labels": ["alloy", "renovate", "kind::maintenance", "team::Observability"],
-    "packageRules": [
-        {
-          "matchDatasources": ["docker"],
-          "groupName": "Ironbank",
-          "registryUrls": ["https://registry1.dso.mil"],
-          "postUpgradeTasks": {
-            "commands": [
-                "match-chart-yaml-appversion",
-                "regenerate-helm-docs",
-                "bump-changelog '- {{{replace 'registry1.dso.mil/' '' depName}}} updated from {{{currentVersion}}} to {{{newVersion}}}'"
-            ],
-            "fileFilters": ["chart/Chart.yaml", "README.md", "CHANGELOG.md"]
-          }
-        },
-        {
-            "matchDatasources": ["helm"],
-            "groupName": "Ironbank",
-            "postUpgradeTasks": {
-              "commands": [
-              ],
-              "fileFilters": ["chart/Chart.yaml", "README.md", "CHANGELOG.md"]
-            }
-        }
+  "baseBranches": ["main"],
+  "configWarningReuseIssue": false,
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate: Upgrade Alloy Package Dependencies",
+  "draftPR": true,
+  "enabledManagers": ["custom.regex", "helmv3"],
+  "ignorePaths": ["chart/charts/**"],
+  "labels": ["alloy", "renovate", "kind::maintenance", "team::Observability"],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "groupName": "Ironbank",
+      "registryUrls": ["https://registry1.dso.mil"],
+      "postUpgradeTasks": {
+        "commands": [
+          "regenerate-helm-docs",
+          "bump-changelog '- {{{replace 'registry1.dso.mil/' '' depName}}} updated from {{{currentVersion}}} to {{{newVersion}}}'",
+          "update-alloy-subcharts"
+        ],
+        "fileFilters": ["chart/Chart.yaml", "chart/values.yaml", "README.md", "CHANGELOG.md"]
+      }
+    },
+    {
+      "matchDatasources": ["helm"],
+      "groupName": "Ironbank",
+      "postUpgradeTasks": {
+        "commands": [],
+        "fileFilters": ["chart/Chart.yaml", "README.md", "CHANGELOG.md"]
+      }
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update chart annotations - bigbang.dev/applicationVersions:",
+      "fileMatch": ["^chart/Chart\\.yaml$"],
+      "matchStrings": [
+        "- Alloy:\\s'v(?<currentValue>.+)'",
+        "appVersion:\\s+(?<currentValue>.+)"
       ],
-      "regexManagers": [
-        {
-            "description": "Update chart annotations - bigbang.dev/applicationVersions:",
-            "fileMatch": ["^chart/Chart\\.yaml$"],
-            "matchStrings": [
-                "- Alloy:\\s'v(?<currentValue>.+)'",
-                "appVersion:\\s+(?<currentValue>.+)" 
-            ],
-            "depNameTemplate": "registry1.dso.mil/ironbank/opensource/grafana/alloy",
-            "datasourceTemplate": "docker"
-        },
-        {
-            "description": "Update docker image references",
-            "fileMatch": ["^chart/Chart\\.yaml$"],
-            "matchStrings": [
-                "image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"
-            ],
-            "datasourceTemplate": "docker"
-        },
-        {
-            "description": "Update k8s-monitoring version",
-            "fileMatch": ["^chart/Chart\\.yaml$"],
-            "matchStrings": [
-                "version:\\s+(?<currentValue>.+)-bb\\.\\d+"
-            ],
-            "depNameTemplate": "k8s-monitoring",
-            "datasourceTemplate": "helm",
-            "registryUrlTemplate": "https://grafana.github.io/helm-charts"
-        }
-    ],
-    "separateMajorMinor": false
+      "depNameTemplate": "registry1.dso.mil/ironbank/opensource/grafana/alloy",
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Update docker image references",
+      "fileMatch": ["^chart/Chart\\.yaml$"],
+      "matchStrings": ["image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Update k8s-monitoring version",
+      "fileMatch": ["^chart/Chart\\.yaml$"],
+      "matchStrings": ["version:\\s+(?<currentValue>.+)-bb\\.\\d+"],
+      "depNameTemplate": "k8s-monitoring",
+      "datasourceTemplate": "helm",
+      "registryUrlTemplate": "https://grafana.github.io/helm-charts"
+    }
+  ],
+  "separateMajorMinor": false
 }

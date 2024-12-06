@@ -59,5 +59,6 @@
       "registryUrlTemplate": "https://grafana.github.io/helm-charts"
     }
   ],
-  "separateMajorMinor": false
+  "separateMajorMinor": false,
+  "postUpdateOptions": ["helmUpdateSubChartArchives"]
 }

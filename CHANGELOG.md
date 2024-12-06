@@ -2,6 +2,10 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.13-bb.0] - 2024-12-06
+### Changed
+- ironbank/opensource/grafana/alloy updated from v1.4.2 to v1.5.1
+
 ## [1.6.12-bb.0] - 2024-12-02
 ### Changed
 - k8s-monitoring updated from 1.6.4 to 1.6.12

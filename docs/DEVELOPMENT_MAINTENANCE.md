@@ -13,9 +13,9 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
 
 2. Checkout the `renovate/ironbank` branch
 
-3. Modify the version in `Chart.yaml` and append `-bb.0` to the chart version from upstream.
+3. Make sure the `Chart.yaml` is displaying the correct chart version from upstream and has `-bb.0`  apended.
 
-4. Find the correct matching sub-dependency versions for the correct alloy subchart version (ex: 1.6.4). Usually in these locations:
+4. Find the correct matching sub-dependency versions for the correct alloy subchart version (ex: 1.6.4) and validate that the renovate is using the correct ones. Usually in these locations:
 - k8s-monitoring-v1 [1.6.4 chart](https://github.com/grafana/k8s-monitoring-helm/blob/v1.6.4/charts/k8s-monitoring-v1/Chart.yaml)
 - check appVersion in chart and make sure it is updated
 - alloy helm chart tag from dependency [0.9.1 chart values](https://github.com/grafana/alloy/blob/helm-chart/0.9.1/operations/helm/charts/alloy/values.yaml)
@@ -24,9 +24,9 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
 
 4. Make sure the `annotations`, `bigbang.dev/applicationVersions: |` alloy version is consistent with what is in `helm.sh/images: |`.
 
-5. Update the `./chart/values.yaml` file `alloy.image.tag` and `alloy.configReloader.image.tag` values to match their respective tags in `helm.sh/images:` in `./chart/Chart.yaml`
+5. If necessary, update the `./chart/values.yaml` file `alloy.image.tag` and `alloy.configReloader.image.tag` values to match their respective tags in `helm.sh/images:` in `./chart/Chart.yaml`
 
-6. Update dependencies and binaries using `helm dependency update ./chart`
+6. If necessary, Update dependencies and binaries using `helm dependency update ./chart`. This step may be automated and not needed.
 
     - If needed, log into registry1.
 
@@ -55,6 +55,8 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
 7. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`). Also, make sure the configloader versions are accurate if updated.
 
 8. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
+
+At the moment, this still needs to be done!
 
 9. Push up your changes, add upgrade notices if applicable, validate that CI passes.
 

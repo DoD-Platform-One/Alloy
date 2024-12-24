@@ -2,7 +2,7 @@ apiVersion: v2
 name: k8s-monitoring
 description: A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 type: application
-version: 1.6.15-bb.0
+version: 1.6.16-bb.0
 appVersion: 2.10.0
 icon: https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg
 sources:
@@ -21,7 +21,7 @@ annotations:
     - [and Grafana Alloy's release notes here](https://grafana.com/docs/alloy/latest/release-notes/)
 dependencies:
   - name: k8s-monitoring
-    version: "1.6.15"
+    version: "1.6.16"
     repository: https://grafana.github.io/helm-charts
     import-values:
       - child: receivers.grpc

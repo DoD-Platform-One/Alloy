@@ -17,3 +17,4 @@ spec:
     - port: {{ .Values.k8sMonitoringValues.receivers.grpc.port }}
     - port: {{ .Values.k8sMonitoringValues.receivers.http.port }}
 {{- end }}
+

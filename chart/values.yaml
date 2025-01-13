@@ -2,9 +2,10 @@
 # -- See https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring-v1/values.yaml for available values.
 # @default -- Our overrides are defined in charts/values.yaml file.
 k8s-monitoring:
+  
   cluster:
     name: bigbang
-
+    
   global:
     image:
       registry: "registry1.dso.mil"
@@ -35,9 +36,11 @@ k8s-monitoring:
   alloy:
     image:
       repository: "ironbank/opensource/grafana/alloy"
+      tag: "v1.5.1"
     configReloader:
       image:
         repository: "ironbank/opensource/jimmidyson/configmap-reload"
+        tag: "v0.14.0"
       securityContext:
         capabilities:
           drop:
@@ -52,13 +55,14 @@ k8s-monitoring:
         capabilities:
           drop:
           - ALL
-
+  
   alloy-logs:
     image:
       repository: "ironbank/opensource/grafana/alloy"
     configReloader:
       image:
         repository: "ironbank/opensource/jimmidyson/configmap-reload"
+        tag: "v0.14.0"
       securityContext:
         capabilities:
           drop:
@@ -80,6 +84,7 @@ k8s-monitoring:
     configReloader:
       image:
         repository: "ironbank/opensource/jimmidyson/configmap-reload"
+        tag: "v0.14.0"
       securityContext:
         capabilities:
           drop:

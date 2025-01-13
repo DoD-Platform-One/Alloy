@@ -15,12 +15,11 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
 
 3. Make sure the `Chart.yaml` is displaying the correct chart version from upstream and has `-bb.0`  apended.
 
-4. Find the correct matching sub-dependency versions for the correct alloy subchart version (ex: 1.6.4) and validate that the renovate is using the correct ones. Usually in these locations:
-- k8s-monitoring-v1 [1.6.4 chart](https://github.com/grafana/k8s-monitoring-helm/blob/v1.6.4/charts/k8s-monitoring-v1/Chart.yaml)
+4. Find the correct matching sub-dependency versions for the correct alloy subchart version (ex: 1.6.18) and validate that the renovate is using the correct ones. Usually in these locations:
+- k8s-monitoring-v1 [1.6.18 chart](https://github.com/grafana/k8s-monitoring-helm/blob/v1.6.18/charts/k8s-monitoring-v1/Chart.yaml)
 - check appVersion in chart and make sure it is updated
-- alloy helm chart tag from dependency [0.9.1 chart values](https://github.com/grafana/alloy/blob/helm-chart/0.9.1/operations/helm/charts/alloy/values.yaml)
-  - [0.9.1 chart appVersion 1.4.2](https://github.com/grafana/alloy/blob/helm-chart/0.9.1/operations/helm/charts/alloy/Chart.yaml)
-  - [0.9.1 values configmap v0.12.0](https://github.com/grafana/alloy/blob/helm-chart/0.9.1/operations/helm/charts/alloy/values.yaml#L157)
+- alloy helm chart tag from dependency [0.10.1 chart values](https://github.com/grafana/alloy/blob/helm-chart/0.10.1/operations/helm/charts/alloy/values.yaml)
+  - If upgrading the Iron Bank images ensure that the Big Bang package values.yaml has the most recent minor/patch version for the Iron Bank images.
 
 4. Make sure the `annotations`, `bigbang.dev/applicationVersions: |` alloy version is consistent with what is in `helm.sh/images: |`.
 

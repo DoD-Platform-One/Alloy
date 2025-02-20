@@ -1,140 +1,124 @@
 # Settings for the k8s-monitoring chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack .
 # -- See https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring-v1/values.yaml for available values.
 # @default -- Our overrides are defined in charts/values.yaml file.
+
+global:
+  image:
+    registry: registry1.dso.mil
+    pullSecrets: 
+      - name: private-registry
+  # -- Overrides the Docker registry globally for all images
+  imageRegistry: registry1.dso.mil
+  # To help compatibility with other charts which use global.imagePullSecrets.
+  # Allow either an array of {name: pullSecret} maps (k8s-style), or an array of strings (more common helm-style).
+  # Can be templated.
+  # global:
+  #   imagePullSecrets:
+  #   - name: pullSecret1
+  #   - name: pullSecret2
+  # or
+  # global:
+  #   imagePullSecrets:
+  #   - pullSecret1
+  #   - pullSecret2
+  imagePullSecrets: 
+    - name: private-registry
+
 k8s-monitoring:
-  
   cluster:
     name: bigbang
-    
-  global:
+  destinations:
+    - name: metricsService
+      type: prometheus
+      url: http://monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090/api/v1/write
+    - name: logsService
+      type: loki
+      url: logging-loki.logging.svc.cluster.local:3100/loki/api/v1/push
+    - name: tracesService
+      type: otlp
+      metrics:
+        enabled: false
+      logs:
+        enabled: false
+      traces:
+        enabled: true
+      url: tempo-tempo.tempo.svc.cluster.local:4317
+      tls: {}
+  alloy-metrics:
     image:
-      registry: "registry1.dso.mil"
-      pullSecrets:
-      - name: private-registry
-    podSecurityContext:
-      runAsUser: 473
-      runAsGroup: 473
-      fsGroup: 473
-      runAsNonRoot: true
-      seccompProfile:
-        type: RuntimeDefault
-
-  externalServices:
-    prometheus:
-      host: http://monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090
-      authMode: none
-      writeEndpoint: /api/v1/write
-    loki:
-      host: logging-loki.logging.svc.cluster.local:3100
-      authMode: none
-    tempo:
-      host: tempo-tempo.tempo.svc.cluster.local:4317
-      authMode: none
-      tls:
-        insecure: true
-
-  alloy:
-    image:
-      repository: "ironbank/opensource/grafana/alloy"
-      tag: "v1.5.1"
+      registry: registry1.dso.mil
+      repository: ironbank/opensource/grafana/alloy
+      tag: v1.5.1
     configReloader:
       image:
-        repository: "ironbank/opensource/jimmidyson/configmap-reload"
-        tag: "v0.14.0"
+        registry: registry1.dso.mil
+        repository: ironbank/opensource/jimmidyson/configmap-reload
+        tag: v0.12.0
       securityContext:
         capabilities:
           drop:
-          - ALL
+            - ALL
     alloy:
       securityContext:
         capabilities:
           drop:
-          - ALL
+            - ALL
     controller:
       securityContext:
         capabilities:
           drop:
-          - ALL
-  
-  alloy-logs:
-    image:
-      repository: "ironbank/opensource/grafana/alloy"
-    configReloader:
-      image:
-        repository: "ironbank/opensource/jimmidyson/configmap-reload"
-        tag: "v0.14.0"
-      securityContext:
-        capabilities:
-          drop:
-          - ALL
-    alloy:
-      securityContext:
-        capabilities:
-          drop:
-          - ALL
-    controller:
-      securityContext:
-        capabilities:
-          drop:
-          - ALL
-
-  alloy-events:
-    image:
-      repository: "ironbank/opensource/grafana/alloy"
-    configReloader:
-      image:
-        repository: "ironbank/opensource/jimmidyson/configmap-reload"
-        tag: "v0.14.0"
-      securityContext:
-        capabilities:
-          drop:
-          - ALL
-    alloy:
-      securityContext:
-        capabilities:
-          drop:
-          - ALL
-    controller:
-      securityContext:
-        capabilities:
-          drop:
-          - ALL
-
-  traces:
+            - ALL
     enabled: true
-
-  logs:
-    cluster_events:
-      enabled: false
-    pod_logs:
-      enabled: false
-
-  metrics:
+  applicationObservability:
     enabled: true
-    # disable scraping serviceMonitors until we disable prometheus-operator
-    serviceMonitors:
-      enabled: false
-
-  prometheus-operator-crds:
-    enabled: false
-
-  kube-state-metrics:
-    enabled: false
-
-  prometheus-node-exporter:
-    enabled: false
-
-  opencost:
-    enabled: false
-
-  configValidator:
-    enabled: false
-
-  configAnalysis:
-    enabled: false
-
-  test:
-    enabled: false
+    receivers:
+      otlp:
+        grpc:
+          enabled: true
+  alloy-receiver:
+    image:
+      registry: registry1.dso.mil
+      repository: ironbank/opensource/grafana/alloy
+      tag: v1.5.1
+    configReloader:
+      image:
+        registry: registry1.dso.mil
+        repository: ironbank/opensource/jimmidyson/configmap-reload
+        tag: v0.12.0
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+    alloy:
+      extraPorts:
+      - name: otlp-grpc
+        port: 4317
+        targetPort: 4317
+        protocol: TCP
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        seccompProfile:
+          type: "RuntimeDefault"
+    controller:
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+    enabled: true
+  integrations:
+    alloy:
+      image:
+        registry: registry1.dso.mil
+        repository: ironbank/opensource/grafana/alloy
+        tag: v1.5.1
+      instances:
+        - name: alloy
+          labelSelectors:
+            app.kubernetes.io/name:
+              - alloy-receiver
+              - alloy-metrics
 
 networkPolicies:
   # -- Toggle networkPolicies

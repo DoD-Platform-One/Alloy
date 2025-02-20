@@ -8,20 +8,23 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: alloy
+      app.kubernetes.io/name: alloy-metrics
   policyTypes:
   - Egress
+  {{- $endpoints := (lookup "v1" "Endpoints" "default" "kubernetes").subsets | default (list) }}
+  {{- if $endpoints }}
   egress:
-  {{- range (lookup "v1" "Endpoints" "default" "kubernetes").subsets }}
+  {{- range $subset := $endpoints }}
   - to:
-    {{- range .addresses }}
-    - ipBlock:
-        cidr: {{ .ip }}/32
+    {{- range $subset.addresses }}
+      - ipBlock:
+          cidr: {{ .ip }}/32
     {{- end }}
     ports:
-      {{- range .ports }}
+      {{- range $subset.ports }}
       - protocol: {{ .protocol }}
         port: {{ .port }}
       {{- end }}
+  {{- end }}
   {{- end }}
 {{- end }}

@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.4-bb.0] - 2025-02-06
+### Changed
+- k8s-monitoring updated from 1.6.18 to 2.0.4
+- Added Network Policy to allow Alloy ingress to Alloy Deployment
+- Migrated the values.yaml from 1.x.x to 2.0.4
+
 ## [1.16.18-bb.0] - 2025-01-10
 ### Changed
 - k8s-monitoring updated from 1.6.16 to 1.6.18

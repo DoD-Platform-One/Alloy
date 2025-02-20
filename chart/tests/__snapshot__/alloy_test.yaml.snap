@@ -6,7 +6,7 @@ should match snapshot of default values:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: alloy
+        app.kubernetes.io/name: alloy-metrics
       name: alloy
       namespace: NAMESPACE
     spec:
@@ -15,14 +15,14 @@ should match snapshot of default values:
       selector:
         matchLabels:
           app.kubernetes.io/instance: alloy
-          app.kubernetes.io/name: alloy
+          app.kubernetes.io/name: alloy-metrics
     template:
       metadata:
         creationTimestamp: null
         labels:
           app: alloy
           app.kubernetes.io/instance: alloy
-          app.kubernetes.io/name: alloy
+          app.kubernetes.io/name: alloy-metrics
           version: v1.2.1
         annotations:
           kubectl.kubernetes.io/default-container: alloy

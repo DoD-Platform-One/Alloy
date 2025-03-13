@@ -1,13 +1,13 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 2.0.4-bb.1](https://img.shields.io/badge/Version-2.0.4--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.4](https://img.shields.io/badge/AppVersion-2.0.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 2.0.16-bb.0](https://img.shields.io/badge/Version-2.0.16--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.16](https://img.shields.io/badge/AppVersion-2.0.16-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
 ## Upstream References
 
-- <https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring-v1>
+- <https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring>
 
 ## Upstream Release Notes
 
@@ -65,7 +65,7 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.alloy-metrics.image.tag | string | `"v1.5.1"` |  |
 | k8s-monitoring.alloy-metrics.configReloader.image.registry | string | `"registry1.dso.mil"` |  |
 | k8s-monitoring.alloy-metrics.configReloader.image.repository | string | `"ironbank/opensource/jimmidyson/configmap-reload"` |  |
-| k8s-monitoring.alloy-metrics.configReloader.image.tag | string | `"v0.12.0"` |  |
+| k8s-monitoring.alloy-metrics.configReloader.image.tag | string | `"v0.14.0"` |  |
 | k8s-monitoring.alloy-metrics.configReloader.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | k8s-monitoring.alloy-metrics.alloy.enableReporting | bool | `false` |  |
 | k8s-monitoring.alloy-metrics.alloy.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -75,10 +75,10 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.applicationObservability.receivers.otlp.grpc.enabled | bool | `true` |  |
 | k8s-monitoring.alloy-receiver.image.registry | string | `"registry1.dso.mil"` |  |
 | k8s-monitoring.alloy-receiver.image.repository | string | `"ironbank/opensource/grafana/alloy"` |  |
-| k8s-monitoring.alloy-receiver.image.tag | string | `"v1.5.1"` |  |
+| k8s-monitoring.alloy-receiver.image.tag | string | `"v1.7.1"` |  |
 | k8s-monitoring.alloy-receiver.configReloader.image.registry | string | `"registry1.dso.mil"` |  |
 | k8s-monitoring.alloy-receiver.configReloader.image.repository | string | `"ironbank/opensource/jimmidyson/configmap-reload"` |  |
-| k8s-monitoring.alloy-receiver.configReloader.image.tag | string | `"v0.12.0"` |  |
+| k8s-monitoring.alloy-receiver.configReloader.image.tag | string | `"v0.14.0"` |  |
 | k8s-monitoring.alloy-receiver.configReloader.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | k8s-monitoring.alloy-receiver.alloy.extraPorts[0].name | string | `"otlp-grpc"` |  |
 | k8s-monitoring.alloy-receiver.alloy.extraPorts[0].port | int | `4317` |  |
@@ -90,7 +90,7 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.alloy-receiver.enabled | bool | `true` |  |
 | k8s-monitoring.integrations.alloy.image.registry | string | `"registry1.dso.mil"` |  |
 | k8s-monitoring.integrations.alloy.image.repository | string | `"ironbank/opensource/grafana/alloy"` |  |
-| k8s-monitoring.integrations.alloy.image.tag | string | `"v1.5.1"` |  |
+| k8s-monitoring.integrations.alloy.image.tag | string | `"v1.7.1"` |  |
 | k8s-monitoring.integrations.alloy.instances[0].name | string | `"alloy"` |  |
 | k8s-monitoring.integrations.alloy.instances[0].labelSelectors."app.kubernetes.io/name"[0] | string | `"alloy-receiver"` |  |
 | k8s-monitoring.integrations.alloy.instances[0].labelSelectors."app.kubernetes.io/name"[1] | string | `"alloy-metrics"` |  |

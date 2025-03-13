@@ -7,7 +7,7 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
 
 > Renovate doesn't fully automate this yet for Alloy, please validate all tags for the new chart version.
 
-1. Navigate to the upstream [chart repo and folder](https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring-v1) and find the appropriate tags that corresponds with the new chart version for this update.
+1. Navigate to the upstream [chart repo and folder](https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring) and find the appropriate tags that corresponds with the new chart version for this update.
 
     - Check the [upstream changelog](https://github.com/grafana/k8s-monitoring-helm/releases) for upgrade notices.
 
@@ -15,10 +15,10 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
 
 3. Make sure the `Chart.yaml` is displaying the correct chart version from upstream and has `-bb.0`  apended.
 
-4. Find the correct matching sub-dependency versions for the correct alloy subchart version (ex: 1.6.18) and validate that the renovate is using the correct ones. Usually in these locations:
-- k8s-monitoring-v1 [1.6.18 chart](https://github.com/grafana/k8s-monitoring-helm/blob/v1.6.18/charts/k8s-monitoring-v1/Chart.yaml)
+4. Find the correct matching sub-dependency versions for the correct alloy subchart version (ex: 2.0.16) and validate that the renovate is using the correct ones. Usually in these locations:
+- k8s-monitoring [2.0.16 chart](https://github.com/grafana/k8s-monitoring-helm/tree/v2.0.16/charts/k8s-monitoring)
 - check appVersion in chart and make sure it is updated
-- alloy helm chart tag from dependency [0.10.1 chart values](https://github.com/grafana/alloy/blob/helm-chart/0.10.1/operations/helm/charts/alloy/values.yaml)
+- alloy helm chart tag from dependency [0.12.1 chart values](hhttps://github.com/grafana/alloy/blob/helm-chart/0.12.1/operations/helm/charts/alloy/values.yaml)
   - If upgrading the Iron Bank images ensure that the Big Bang package values.yaml has the most recent minor/patch version for the Iron Bank images.
 
 4. Make sure the `annotations`, `bigbang.dev/applicationVersions: |` alloy version is consistent with what is in `helm.sh/images: |`.
@@ -81,7 +81,7 @@ At the moment, this still needs to be done!
       istio:
         hardened:
           enabled: true
-    ### Additional compononents of Loki should be changed to reflect testing changes introduced in the package MR
+    ### Additional compononents of Alloy should be changed to reflect testing changes introduced in the package MR
 ```
 
 11. Follow the `Testing new Alloy Version` section of this document for manual testing.

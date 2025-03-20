@@ -14,15 +14,15 @@ should match snapshot of default values:
       revisionHistoryLimit: 10
       selector:
         matchLabels:
-          app.kubernetes.io/instance: alloy
           app.kubernetes.io/name: alloy-metrics
+          app.kubernetes.io/instance: alloy
     template:
       metadata:
         creationTimestamp: null
         labels:
           app: alloy
-          app.kubernetes.io/instance: alloy
           app.kubernetes.io/name: alloy-metrics
+          app.kubernetes.io/instance: alloy
           version: v1.2.1
         annotations:
           kubectl.kubernetes.io/default-container: alloy

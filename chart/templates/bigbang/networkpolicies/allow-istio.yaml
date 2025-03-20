@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: alloy-metrics
+      app.kubernetes.io/instance: alloy
   policyTypes:
   - Egress
   egress:

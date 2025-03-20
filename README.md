@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 2.0.16-bb.0](https://img.shields.io/badge/Version-2.0.16--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.16](https://img.shields.io/badge/AppVersion-2.0.16-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 2.0.16-bb.1](https://img.shields.io/badge/Version-2.0.16--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.16](https://img.shields.io/badge/AppVersion-2.0.16-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -62,7 +62,7 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.destinations[2].tls | object | `{}` |  |
 | k8s-monitoring.alloy-metrics.image.registry | string | `"registry1.dso.mil"` |  |
 | k8s-monitoring.alloy-metrics.image.repository | string | `"ironbank/opensource/grafana/alloy"` |  |
-| k8s-monitoring.alloy-metrics.image.tag | string | `"v1.5.1"` |  |
+| k8s-monitoring.alloy-metrics.image.tag | string | `"v1.7.1"` |  |
 | k8s-monitoring.alloy-metrics.configReloader.image.registry | string | `"registry1.dso.mil"` |  |
 | k8s-monitoring.alloy-metrics.configReloader.image.repository | string | `"ironbank/opensource/jimmidyson/configmap-reload"` |  |
 | k8s-monitoring.alloy-metrics.configReloader.image.tag | string | `"v0.14.0"` |  |
@@ -80,6 +80,7 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.alloy-receiver.configReloader.image.repository | string | `"ironbank/opensource/jimmidyson/configmap-reload"` |  |
 | k8s-monitoring.alloy-receiver.configReloader.image.tag | string | `"v0.14.0"` |  |
 | k8s-monitoring.alloy-receiver.configReloader.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| k8s-monitoring.alloy-receiver.alloy.enableReporting | bool | `false` |  |
 | k8s-monitoring.alloy-receiver.alloy.extraPorts[0].name | string | `"otlp-grpc"` |  |
 | k8s-monitoring.alloy-receiver.alloy.extraPorts[0].port | int | `4317` |  |
 | k8s-monitoring.alloy-receiver.alloy.extraPorts[0].targetPort | int | `4317` |  |
@@ -88,6 +89,7 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.alloy-receiver.alloy.securityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
 | k8s-monitoring.alloy-receiver.controller.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | k8s-monitoring.alloy-receiver.enabled | bool | `true` |  |
+| k8s-monitoring.integrations.alloy.enableReporting | bool | `false` |  |
 | k8s-monitoring.integrations.alloy.image.registry | string | `"registry1.dso.mil"` |  |
 | k8s-monitoring.integrations.alloy.image.repository | string | `"ironbank/opensource/grafana/alloy"` |  |
 | k8s-monitoring.integrations.alloy.image.tag | string | `"v1.7.1"` |  |
@@ -98,6 +100,9 @@ helm install k8s-monitoring chart/
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Control Plane CIDR, defaults to 0.0.0.0/0, use `kubectl get endpoints -n default kubernetes` to get the CIDR range needed for your cluster Must be an IP CIDR range (x.x.x.x/x - ideally with /32 for the specific IP of a single endpoint, broader range for multiple masters/endpoints) Used by package NetworkPolicies to allow Kube API access |
 | networkPolicies.additionalPolicies | list | `[]` |  |
 | networkPolicies.egress | object | `{}` | NetworkPolicy selectors and ports for egress to downstream telemetry ingestion services. These should be uncommented and overridden if any of these values deviate from the Big Bang defaults. |
+| autoRollingUpgrade.enabled | bool | `true` |  |
+| autoRollingUpgrade.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` |  |
+| autoRollingUpgrade.image.tag | string | `"2.1.0"` |  |
 | istio.enabled | bool | `false` | Toggle istio configuration |
 | istio.hardened | object | `{"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"}` | Default peer authentication values |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |

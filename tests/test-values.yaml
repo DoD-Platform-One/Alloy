@@ -18,5 +18,8 @@ k8s-monitoring:
   configAnalysis:
     enabled: true
 
+autoRollingUpgrade:
+  enabled: false
+
   test:
     enabled: true

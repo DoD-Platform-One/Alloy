@@ -169,6 +169,12 @@ networkPolicies:
     #     matchLabels:
     #       app.kubernetes.io/name: tempo
 
+autoRollingUpgrade:
+  enabled: true
+  image:
+    repository: registry1.dso.mil/ironbank/big-bang/base
+    tag: 2.1.0
+
 istio:
   # -- Toggle istio configuration
   enabled: false

@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.16-bb.1] (2025-03-18)
+### Added
+- Upgrade job that removes any lingering resources in the monitoring namespace after migrating to its own namespace
+- Modified netpol/authpol labels from `app.kubernetes.io/name: alloy-metrics` to `app.kubernetes.io/instance: alloy`
+
 ## [2.0.16-bb.0] (2025-03-07)
 ### Changed
 - k8s-monitoring updated from 2.0.4 to 2.0.16

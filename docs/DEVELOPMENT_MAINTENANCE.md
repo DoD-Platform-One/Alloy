@@ -150,6 +150,8 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
 You will want to install with:
 
 - Istio package enabled
+- Loki package enabled
+- Promtail disabled
 
 `overrides/alloy.yaml`
 
@@ -164,14 +166,25 @@ flux:
 istio:
   enabled: true
 
+loki:
+  enabled: true
+
+promtail:
+  enabled: false
+
 addons:
   alloy:
-    # git:
-    #   tag: null
-    #   branch: "<branch-name>"
     enabled: true
+    git:
+      tag: null
+      branch: "renovate/ironbank"
+
 ```
 
 - Validate Alloy pod logs are showing no errors.
+- Go to [https://grafana.dev.bigbang.mil](https://grafana.dev.bigbang.mil) in your browser and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
+  - Navigate to `Configuration -> Data sources -> Loki`
+  - Click on `Save & test` and ensure `Data source successfully connected.` message appears
+  - Navigate to `Dashboards` and then click on ``Loki Dashboard Quick Search`` and validate that data is loaded
 
 > When in doubt with any testing or upgrade steps, reach out to the CODEOWNERS for assistance.

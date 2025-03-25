@@ -28,13 +28,13 @@ k8s-monitoring:
   cluster:
     name: bigbang
   destinations:
-    - name: metricsService
+    - name: prometheus
       type: prometheus
       url: http://monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090/api/v1/write
-    - name: logsService
+    - name: loki
       type: loki
-      url: logging-loki.logging.svc.cluster.local:3100/loki/api/v1/push
-    - name: tracesService
+      url: http://logging-loki.logging.svc.cluster.local:3100/loki/api/v1/push
+    - name: tempo
       type: otlp
       metrics:
         enabled: false
@@ -45,6 +45,7 @@ k8s-monitoring:
       url: tempo-tempo.tempo.svc.cluster.local:4317
       tls: {}
   alloy-metrics:
+    enabled: true
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
@@ -70,14 +71,35 @@ k8s-monitoring:
         capabilities:
           drop:
             - ALL
-    enabled: true
+  alloy-logs:
+    enabled: false
+    image:
+      registry: registry1.dso.mil
+      repository: ironbank/opensource/grafana/alloy
+      tag: v1.7.1
+    configReloader:
+      image:
+        registry: registry1.dso.mil
+        repository: ironbank/opensource/jimmidyson/configmap-reload
+        tag: "v0.14.0"
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+    alloy:
+      enableReporting: false
+      securityContext:
+        privileged: false
+        runAsUser: 0
+        runAsGroup: 0
   applicationObservability:
-    enabled: true
+    enabled: false
     receivers:
       otlp:
         grpc:
           enabled: true
   alloy-receiver:
+    enabled: false
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
@@ -110,7 +132,6 @@ k8s-monitoring:
         capabilities:
           drop:
             - ALL
-    enabled: true
   integrations:
     alloy:
       # toggle usage reporting, to prevent trying to reach out to the internet
@@ -125,6 +146,11 @@ k8s-monitoring:
             app.kubernetes.io/name:
               - alloy-receiver
               - alloy-metrics
+  podLogs:
+    enabled: false
+    destinations:
+      - loki
+    collector: alloy-logs
 
 networkPolicies:
   # -- Toggle networkPolicies

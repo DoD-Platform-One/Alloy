@@ -181,10 +181,12 @@ addons:
 
 ```
 
-- Validate Alloy pod logs are showing no errors.
+Testing Steps:
 - Go to [https://grafana.dev.bigbang.mil](https://grafana.dev.bigbang.mil) in your browser and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
   - Navigate to `Configuration -> Data sources -> Loki`
   - Click on `Save & test` and ensure `Data source successfully connected.` message appears
   - Navigate to `Dashboards` and then click on ``Loki Dashboard Quick Search`` and validate that data is loaded
+- Log into Prometheus https://prometheus.dev.bigbang.mil/ and select `Status` --> `Target Health` from the top banner. Fron the top left corner, select from the drop down the Service Monitors for Alloy microservice (`alloy-logs`, `alloy-metrics`) and confirm for each Service Monitor that the statuses are all `UP` and green.
+- Validate all Alloy pod logs (`alloy-logs`, `alloy-metrics`) are showing no errors with `kubectl logs` command.
 
 > When in doubt with any testing or upgrade steps, reach out to the CODEOWNERS for assistance.

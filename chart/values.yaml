@@ -140,12 +140,6 @@ k8s-monitoring:
         registry: registry1.dso.mil
         repository: ironbank/opensource/grafana/alloy
         tag: "v1.7.1"
-      instances:
-        - name: alloy
-          labelSelectors:
-            app.kubernetes.io/name:
-              - alloy-receiver
-              - alloy-metrics
   podLogs:
     enabled: false
     destinations:

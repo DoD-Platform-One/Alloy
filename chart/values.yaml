@@ -45,7 +45,7 @@ k8s-monitoring:
       url: tempo-tempo.tempo.svc.cluster.local:4317
       tls: {}
   alloy-metrics:
-    enabled: true
+    enabled: false
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy

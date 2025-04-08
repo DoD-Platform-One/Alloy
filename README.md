@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 2.0.16-bb.3](https://img.shields.io/badge/Version-2.0.16--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.16](https://img.shields.io/badge/AppVersion-2.0.16-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 2.0.16-bb.4](https://img.shields.io/badge/Version-2.0.16--bb.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.16](https://img.shields.io/badge/AppVersion-2.0.16-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -105,9 +105,6 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.integrations.alloy.image.registry | string | `"registry1.dso.mil"` |  |
 | k8s-monitoring.integrations.alloy.image.repository | string | `"ironbank/opensource/grafana/alloy"` |  |
 | k8s-monitoring.integrations.alloy.image.tag | string | `"v1.7.1"` |  |
-| k8s-monitoring.integrations.alloy.instances[0].name | string | `"alloy"` |  |
-| k8s-monitoring.integrations.alloy.instances[0].labelSelectors."app.kubernetes.io/name"[0] | string | `"alloy-receiver"` |  |
-| k8s-monitoring.integrations.alloy.instances[0].labelSelectors."app.kubernetes.io/name"[1] | string | `"alloy-metrics"` |  |
 | k8s-monitoring.podLogs.enabled | bool | `false` |  |
 | k8s-monitoring.podLogs.destinations[0] | string | `"loki"` |  |
 | k8s-monitoring.podLogs.collector | string | `"alloy-logs"` |  |

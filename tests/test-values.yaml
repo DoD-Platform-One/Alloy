@@ -1,25 +1,42 @@
-bbtests:
-  enabled: true
-
-alloy:
-  # -- Resource requests and limits to apply to the Grafana Alloy container.
-  resources:
-    limits:
-      cpu: 2000m
-      memory: 4000Mi
-    requests:
-      cpu: 1000m
-      memory: 2000Mi
-
-k8s-monitoring:
-  configValidator:
-    enabled: true
-
-  configAnalysis:
-    enabled: true
-
-autoRollingUpgrade:
+#########################
+# Disable Core Packages #
+#########################
+neuvector:
   enabled: false
-
-  test:
+promtail:
+  enabled: false
+tempo:
+  enabled: false
+kyvernoReporter:
+  enabled: false
+kiali:
+  enabled: false
+addons:
+########################
+# Required for package #
+########################
+  alloy:
     enabled: true
+loki:
+  enabled: true
+  values:
+    bbtests:
+      enabled: false
+grafana:
+  enabled: true
+  values:
+    bbtests:
+      enabled: false
+monitoring:
+  enabled: true
+  values:
+    bbtests:
+      enabled: false
+kyvernoPolicies:
+  values:
+    bbtests:
+      enabled: false
+kyverno:
+  values:
+    bbtests:
+      enabled: false

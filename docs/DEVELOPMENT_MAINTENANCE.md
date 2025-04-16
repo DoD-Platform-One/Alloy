@@ -178,7 +178,8 @@ addons:
     git:
       tag: null
       branch: "renovate/ironbank"
-
+    alloyLogs:
+      enabled: true
 ```
 
 Testing Steps:
@@ -186,7 +187,7 @@ Testing Steps:
   - Navigate to `Configuration -> Data sources -> Loki`
   - Click on `Save & test` and ensure `Data source successfully connected.` message appears
   - Navigate to `Dashboards` and then click on ``Loki Dashboard Quick Search`` and validate that data is loaded
-- Log into Prometheus https://prometheus.dev.bigbang.mil/ and select `Status` --> `Target Health` from the top banner. Fron the top left corner, select from the drop down the Service Monitors for Alloy microservice (`alloy-logs`, `alloy-metrics`) and confirm for each Service Monitor that the statuses are all `UP` and green.
-- Validate all Alloy pod logs (`alloy-logs`, `alloy-metrics`) are showing no errors with `kubectl logs` command.
+- Log into Prometheus https://prometheus.dev.bigbang.mil/ and select `Status` --> `Target Health` from the top banner. Fron the top left corner, select from the drop down the Service Monitors for Alloy microservice (currently only `alloy-logs`) and confirm for each Service Monitor that the statuses are all `UP` and green.
+- Validate all Alloy pod logs (currently only `alloy-logs`) are showing no errors with `kubectl logs` command.
 
 > When in doubt with any testing or upgrade steps, reach out to the CODEOWNERS for assistance.

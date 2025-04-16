@@ -54,7 +54,7 @@ k8s-monitoring:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/jimmidyson/configmap-reload
-        tag: "v0.14.0"
+        tag: "v0.15.0"
       securityContext:
         capabilities:
           drop:
@@ -76,12 +76,12 @@ k8s-monitoring:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: v1.7.1
+      tag: "v1.7.5"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/jimmidyson/configmap-reload
-        tag: "v0.14.0"
+        tag: "v0.15.0"
       securityContext:
         capabilities:
           drop:
@@ -103,12 +103,12 @@ k8s-monitoring:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: "v1.7.1"
+      tag: "v1.7.5"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/jimmidyson/configmap-reload
-        tag: "v0.14.0"
+        tag: "v0.15.0"
       securityContext:
         capabilities:
           drop:
@@ -139,7 +139,7 @@ k8s-monitoring:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/grafana/alloy
-        tag: "v1.7.1"
+        tag: "v1.7.5"
   podLogs:
     enabled: false
     destinations:

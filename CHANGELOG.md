@@ -2,6 +2,17 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.23-bb.0] (2025-04-10)
+### Added
+- Added network policy allowing Prometheus to scrape istio sidecars
+- Added network policy allowing Prometheus to scrape alloy pods
+
+### Changed
+- k8s-monitoring updated from 2.0.16 to 2.0.23
+- gluon updated from 0.5.14 to 0.5.15
+- alloy updated from v1.7.1 to v1.7.5
+- configmap-reloader updated from v0.14.0 to v0.15.0
+
 ## [2.0.16-bb.4] (2025-04-08)
 ### Changed
 - Moved the k8s-monitoring.integrations logic out of the default chart values so that alloy-metrics can be optionally disabled

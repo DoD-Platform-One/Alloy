@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.26-bb.0] (2025-04-22)
+### Changed
+- k8s-monitoring updated from 2.0.23 to 2.0.26
+- Changed jimmidyson/configmap-reload:v0.15.0 to opensource/prometheus-operator/prometheus-config-reloader:v0.81.0
+
 ## [2.0.23-bb.0] (2025-04-10)
 ### Added
 - Added network policy allowing Prometheus to scrape istio sidecars

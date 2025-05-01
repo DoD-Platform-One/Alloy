@@ -11,12 +11,11 @@ kyvernoReporter:
   enabled: false
 kiali:
   enabled: false
-addons:
 ########################
 # Required for package #
 ########################
-  alloy:
-    enabled: true
+alloy:
+  enabled: true
 loki:
   enabled: true
   values:

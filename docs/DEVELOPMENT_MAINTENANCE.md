@@ -172,14 +172,13 @@ loki:
 promtail:
   enabled: false
 
-addons:
-  alloy:
+alloy:
+  enabled: true
+  git:
+    tag: null
+    branch: "renovate/ironbank"
+  alloyLogs:
     enabled: true
-    git:
-      tag: null
-      branch: "renovate/ironbank"
-    alloyLogs:
-      enabled: true
 ```
 
 Testing Steps:

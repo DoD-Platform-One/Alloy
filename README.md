@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 2.0.26-bb.0](https://img.shields.io/badge/Version-2.0.26--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.26](https://img.shields.io/badge/AppVersion-2.0.26-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 2.0.26-bb.1](https://img.shields.io/badge/Version-2.0.26--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.26](https://img.shields.io/badge/AppVersion-2.0.26-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -83,6 +83,7 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.alloy-logs.alloy.securityContext.privileged | bool | `false` |  |
 | k8s-monitoring.alloy-logs.alloy.securityContext.runAsUser | int | `0` |  |
 | k8s-monitoring.alloy-logs.alloy.securityContext.runAsGroup | int | `0` |  |
+| k8s-monitoring.alloy-logs.alloy.securityContext.seLinuxOptions.type | string | `"spc_t"` |  |
 | k8s-monitoring.applicationObservability.enabled | bool | `false` |  |
 | k8s-monitoring.applicationObservability.receivers.otlp.grpc.enabled | bool | `true` |  |
 | k8s-monitoring.alloy-receiver.enabled | bool | `false` |  |

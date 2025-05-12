@@ -92,6 +92,8 @@ k8s-monitoring:
         privileged: false
         runAsUser: 0
         runAsGroup: 0
+        seLinuxOptions:
+          type: spc_t
   applicationObservability:
     enabled: false
     receivers:

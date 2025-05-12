@@ -2,6 +2,16 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.27-bb.0] (2025-05-12)
+### Changed
+- k8s-monitoring updated from 2.0.26 to 2.0.27
+- gluon updated from 0.5.15 to 0.5.18
+- alloy updated from v1.8.1 to v1.8.3
+- prometheus-config-reloader updated from v0.81.0 to v0.82.1
+
+### Removed
+- Removed destinations from the values.yaml, as the values are now set by the Big Bang umbrella chart.
+
 ## [2.0.26-bb.1] (2025-05-12)
 ### Added
 - Added seLinuxOptions securityContext type "spc_t" for alloy-logs to support SELinux enabled systems

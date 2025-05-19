@@ -204,3 +204,13 @@ istio:
     # -- STRICT = Allow only mutual TLS traffic,
     # PERMISSIVE = Allow both plain text and mutual TLS traffic
     mode: STRICT
+
+
+bbtests:
+  enabled: false
+  cypress:
+    artifacts: true
+    envs:
+      cypress_prometheus_url: 'https://prometheus.dev.bigbang.mil'
+      cypress_alertmanager_url: 'https://alertmanager.dev.bigbang.mil'
+

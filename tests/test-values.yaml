@@ -25,6 +25,8 @@ addons:
 
 alloy:
   enabled: true
+  alloyLogs:
+    enabled: true
   values:
     bbtests:
       enabled: true

@@ -1,6 +1,8 @@
 #########################
 # Disable Core Packages #
 #########################
+bbctl:
+  enabled: false
 neuvector:
   enabled: false
 promtail:
@@ -11,17 +13,26 @@ kyvernoReporter:
   enabled: false
 kiali:
   enabled: false
+addons:
 ########################
 # Required for package #
 ########################
+  minioOperator:
+    enabled: true
+    values:
+      bbtests:
+        enabled: false
+
 alloy:
   enabled: true
   values:
+    bbtests:
+      enabled: true
     k8s-monitoring:
       destinations:
         - name: loki
           type: loki
-          url: http://logging-loki.logging.svc.cluster.local:3100/loki/api/v1/push
+          url: http://logging-loki-write.logging.svc.cluster.local:3100/loki/api/v1/push
       alloy-logs:
         enabled: true
       podLogs:
@@ -33,7 +44,9 @@ loki:
   enabled: true
   values:
     bbtests:
-      enabled: false
+      enabled: true
+    ## Umbrella test-values runs scalable, calling this out explicitly 
+    strategy: scalable
 grafana:
   enabled: true
   values:

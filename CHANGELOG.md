@@ -2,6 +2,10 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.27-bb.1] (2025-05-12)
+### Added
+- Cypress testing for prometheus service monitors
+
 ## [2.0.27-bb.0] (2025-05-12)
 ### Changed
 - k8s-monitoring updated from 2.0.26 to 2.0.27

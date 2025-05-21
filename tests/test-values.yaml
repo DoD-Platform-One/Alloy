@@ -29,7 +29,7 @@ alloy:
     enabled: true
   values:
     bbtests:
-      enabled: true
+      enabled: false
     k8s-monitoring:
       destinations:
         - name: loki

@@ -18,6 +18,11 @@ spec:
     ports:
     - port: 12345 # k8s-monitoring sets Alloy default listen port to 12345
   podSelector:
-    matchLabels:
-      app.kubernetes.io/instance: alloy
+    matchExpressions:
+      - key: {{ .Values.networkPolicies.defaultSelectorKey }}
+        operator: In
+        values:
+        {{- range .Values.networkPolicies.defaultSelectorValues }}
+          - {{ . }}
+        {{- end }}
 {{- end }}

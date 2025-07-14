@@ -6,8 +6,13 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   podSelector: 
-    matchLabels:
-      app.kubernetes.io/instance: alloy
+    matchExpressions:
+      - key: {{ .Values.networkPolicies.defaultSelectorKey }}
+        operator: In
+        values:
+        {{- range .Values.networkPolicies.defaultSelectorValues }}
+          - {{ . }}
+        {{- end }}
   policyTypes:
   - Egress
   egress:

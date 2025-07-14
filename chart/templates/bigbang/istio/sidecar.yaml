@@ -7,8 +7,8 @@ metadata:
   name: {{ .Release.Name }}-sidecar
   namespace: {{.Release.Namespace}}
   labels:
-    name:
-      {{- include "bigbang.labels" $ | nindent 4}}
+    name: alloy
+    {{- include "bigbang.labels" $ | nindent 4}}
 spec:
   outboundTrafficPolicy:
     mode: {{ .Values.istio.hardened.outboundTrafficPolicyMode }}

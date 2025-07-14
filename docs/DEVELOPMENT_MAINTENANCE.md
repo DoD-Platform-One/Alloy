@@ -2,30 +2,28 @@
 
 ## To upgrade the Alloy Package
 
-[!IMPORTANT]
-Please note that Alloy renovate updates will be unique compared to other BigBang renovate updates because Alloy is a wrapper package
-
-> Renovate doesn't fully automate this yet for Alloy, please validate all tags for the new chart version.
+NOTE: Alloy Renovate updates differ from most other Big Bang Renovate updates because Alloy uses a passthrough chart, rather than a fork of the upstream chart.
 
 1. Navigate to the upstream [chart repo and folder](https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring) and find the appropriate tags that corresponds with the new chart version for this update.
 
     - Check the [upstream changelog](https://github.com/grafana/k8s-monitoring-helm/releases) for upgrade notices.
 
-2. Checkout the `renovate/ironbank` branch
+2. Checkout the `renovate/ironbank` branch.
 
-3. Make sure the `Chart.yaml` is displaying the correct chart version from upstream and has `-bb.0`  apended.
+3. Make sure the `./chart/Chart.yaml` is displaying the correct chart version from upstream and has `-bb.0` appended.
 
-4. Find the correct matching sub-dependency versions for the correct alloy subchart version (ex: 2.0.16) and validate that the renovate is using the correct ones. Usually in these locations:
-- k8s-monitoring [2.0.16 chart](https://github.com/grafana/k8s-monitoring-helm/tree/v2.0.16/charts/k8s-monitoring)
-- check appVersion in chart and make sure it is updated
-- alloy helm chart tag from dependency [0.12.1 chart values](hhttps://github.com/grafana/alloy/blob/helm-chart/0.12.1/operations/helm/charts/alloy/values.yaml)
-  - If upgrading the Iron Bank images ensure that the Big Bang package values.yaml has the most recent minor/patch version for the Iron Bank images.
+4. Find the correct matching sub-dependency versions for the correct alloy subchart version (ex: 2.0.16) and validate that the Renovate is using the correct ones. Usually in these locations:
 
-4. Make sure the `annotations`, `bigbang.dev/applicationVersions: |` alloy version is consistent with what is in `helm.sh/images: |`.
+    - k8s-monitoring [2.0.16 chart](https://github.com/grafana/k8s-monitoring-helm/tree/v2.0.16/charts/k8s-monitoring)
+    - check `appVersion` in `./chart/Chart.yaml` and make sure it is updated
+    - alloy helm chart tag from dependency [0.12.1 chart values](hhttps://github.com/grafana/alloy/blob/helm-chart/0.12.1/operations/helm/charts/alloy/values.yaml)
+      - If upgrading the Iron Bank images ensure that the Big Bang package `./chart/values.yaml` has the most recent minor/patch version for the Iron Bank images.
 
-5. If necessary, update the `./chart/values.yaml` file `alloy.image.tag` and `alloy.configReloader.image.tag` values to match their respective tags in `helm.sh/images:` in `./chart/Chart.yaml`
+5. Make sure the `annotations`, `bigbang.dev/applicationVersions:` alloy version is consistent with what is in `helm.sh/images:`.
 
-6. If necessary, Update dependencies and binaries using `helm dependency update ./chart`. This step may be automated and not needed.
+6. If necessary, update the `./chart/values.yaml` file `alloy.image.tag` and `alloy.configReloader.image.tag` values to match their respective tags in `helm.sh/images:` in `./chart/Chart.yaml`.
+
+7. If necessary, update dependencies and binaries using `helm dependency update ./chart`. This step may be automated and not needed.
 
     - If needed, log into registry1.
 
@@ -41,23 +39,21 @@ Please note that Alloy renovate updates will be unique compared to other BigBang
 
       ```shell
       # Note: You may need to resolve merge conflicts in chart/values.yaml before these commands work. Refer to the "Modifications made to upstream"
-      # section below for hinsts on how to resolve them. Also, you need to be logged in to registry1 thorough docker.
+      # section below for hints on how to resolve them. Also, you need to be logged in to registry1 thorough docker.
       helm dependency update ./chart
       ```
 
-      Then log out.
+    - Then log out.
 
       ```shell
       helm registry logout https://registry1.dso.mil
       ```
 
-7. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`). Also, make sure the configloader versions are accurate if updated.
+8. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`). Also, make sure the config-reloader versions are accurate if updated.
 
-8. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
+9. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
 
-At the moment, this still needs to be done!
-
-9. Push up your changes, add upgrade notices if applicable, validate that CI passes.
+10. Push up your changes, add upgrade notices if applicable, validate that CI passes.
 
     - If there are any failures, follow the information in the pipeline to make the necessary updates.
 
@@ -65,30 +61,30 @@ At the moment, this still needs to be done!
 
     - Reach out to the CODEOWNERS if needed.
 
-10. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages. 
+11. (_Optional, only required if package changes are expected to have cascading effects on bigbang umbrella chart_) As part of your MR that modifies bigbang packages, you should modify the bigbang [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages. 
 
     - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Alloy enabled (the below is a reference, actual changes could be more depending on what changes where made to Alloy in the package MR).
 
-### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
+    **[test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)**
 
-```yaml
-  alloy:
-    enabled: true
-    git:
-      tag: null
-      branch: <my-package-branch-that-needs-testing>
-    values:
-      istio:
-        hardened:
-          enabled: true
-    ### Additional compononents of Alloy should be changed to reflect testing changes introduced in the package MR
-```
+    ```yaml
+      alloy:
+        enabled: true
+        git:
+          tag: null
+          branch: "renovate/ironbank"
+        values:
+          istio:
+            hardened:
+              enabled: true
+        ### Additional components of Alloy should be changed to reflect testing changes introduced in the package MR
+    ```
 
-11. Follow the `Testing new Alloy Version` section of this document for manual testing.
+12. Follow the `Testing new Alloy Version` section of this document for manual testing.
 
 ## Update main chart
 
-### ```chart/Chart.yaml```
+### `chart/Chart.yaml`
 
 - update k8s-monitoring `version` and `appVersion`
 - Ensure Big Bang version suffix is appended to chart version
@@ -100,25 +96,24 @@ At the moment, this still needs to be done!
     description: A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
     type: application
     version: $VERSION-bb.0
-    appVersion: $K8S_MONITORING_APPVERSION
+    appVersion: $K8S_MONITORING_VERSION
     icon: https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg
     sources:
       - https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring
     annotations:
       bigbang.dev/applicationVersions: |
         - Alloy: '$ALLOY_APP_VERSION'
-        - k8s-monitoring: '$K8S_MONITORING_VERSION'
       helm.sh/images: |
         - name: alloy
           image: registry1.dso.mil/ironbank/opensource/grafana/alloy:$ALLOY_APP_VERSION
-        - name: configmap-reload
-          image: registry1.dso.mil/ironbank/opensource/jimmidyson/configmap-reload:$CONFIGMAP_RELOAD_APP_VERSION
+        - name: prometheus-config-reloader
+          image: registry1.dso.mil/ironbank/opensource/prometheus-operator/prometheus-config-reloader:$CONFIG_RELOADER_APP_VERSION
       bigbang.dev/upstreamReleaseNotesMarkdown: |
         - [Find our upstream chart's CHANGELOG here](https://github.com/grafana/k8s-monitoring-helm/releases/)
         - [and our upstream application release notes here](https://github.com/grafana/alloy/blob/main/docs/sources/release-notes.md?plain=1)
     dependencies:
       - name: k8s-monitoring
-        version: "1.5.0"
+        version: "$K8S_MONITORING_VERSION"
         repository: https://grafana.github.io/helm-charts
       - name: gluon
         version: "$GLUON_VERSION"
@@ -129,7 +124,7 @@ At the moment, this still needs to be done!
 
 This is a high-level list of modifications that Big Bang has made to the upstream helm chart. You can use this as as cross-check to make sure that no modifications were lost during the upgrade process.
 
-### ```chart/values.yaml```
+### `chart/values.yaml`
 
 - Ensure istio defaults are set
 
@@ -153,9 +148,13 @@ You will want to install with:
 - Loki package enabled
 - Promtail disabled
 
-`overrides/alloy.yaml`
+**`overrides/alloy.yaml`**
 
 ```yaml
+sso:
+  name: P1 SSO
+  url: https://login.dso.mil/auth/realms/baby-yoda
+
 domain: dev.bigbang.mil
 
 flux:
@@ -163,7 +162,13 @@ flux:
   rollback:
     cleanupOnFail: false
 
-istio:
+istioCRDs:
+  enabled: true
+
+istiod:
+  enabled: true
+
+istioGateway:
   enabled: true
 
 loki:
@@ -182,11 +187,13 @@ alloy:
 ```
 
 Testing Steps:
-- Go to [https://grafana.dev.bigbang.mil](https://grafana.dev.bigbang.mil) in your browser and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
+- Go to [https://grafana.dev.bigbang.mil](https://grafana.dev.bigbang.mil) in your browser and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md).
   - Navigate to `Configuration -> Data sources -> Loki`
   - Click on `Save & test` and ensure `Data source successfully connected.` message appears
   - Navigate to `Dashboards` and then click on ``Loki Dashboard Quick Search`` and validate that data is loaded
-- Log into Prometheus https://prometheus.dev.bigbang.mil/ and select `Status` --> `Target Health` from the top banner. Fron the top left corner, select from the drop down the Service Monitors for Alloy microservice (currently only `alloy-logs`) and confirm for each Service Monitor that the statuses are all `UP` and green.
-- Validate all Alloy pod logs (currently only `alloy-logs`) are showing no errors with `kubectl logs` command.
+- Log into [Prometheus](https://prometheus.dev.bigbang.mil/).
+  - Select `Status` --> `Target Health` from the top banner
+  - From the top left corner, select from the drop down the Service Monitors for Alloy microservice (currently only `alloy-alloy-logs`) and confirm for each Service Monitor that the statuses are all `UP` and green
+- Validate all Alloy pod logs (currently `alloy-operator` and `alloy-alloy-logs`) are showing no errors with `kubectl logs` command.
 
-> When in doubt with any testing or upgrade steps, reach out to the CODEOWNERS for assistance.
+> When in doubt with any testing or upgrade steps, reach out to the [CODEOWNERS](https://repo1.dso.mil/big-bang/product/packages/alloy/-/blob/main/CODEOWNERS) for assistance.

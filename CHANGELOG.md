@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.2-bb.0] (2025-06-23)
+### Changed
+- k8s-monitoring updated from 2.0.27 to 3.0.2
+- gluon updated from 0.5.18 to 0.6.2
+- prometheus-config-reloader updated from v0.82.1 to v0.82.2
+
 ## [2.0.27-bb.3] (2025-06-10)
 ### Fixed
 - Update upgrade helper template logic for scenarios where helmRelease status.history is not yet populated and is nil

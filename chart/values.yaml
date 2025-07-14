@@ -29,17 +29,43 @@ k8s-monitoring:
 # These components are enabled through the Big Bang umbrella chart as they are dependent on other services.
   cluster:
     name: bigbang
+  alloy-operator:
+    image:
+      registry: registry1.dso.mil
+      repository: ironbank/opensource/grafana/alloy-operator
+      tag: "0.3.1"
+    configReloader:
+      image:
+        registry: registry1.dso.mil
+        repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
+        tag: "v0.82.2"
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+    alloy:
+      # toggle usage reporting, to prevent trying to reach out to the internet
+      enableReporting: false
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+    controller:
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
   alloy-metrics:
     enabled: false
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: v1.8.1
+      tag: "v1.8.3"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.81.0"
+        tag: "v0.82.2"
       securityContext:
         capabilities:
           drop:
@@ -66,7 +92,7 @@ k8s-monitoring:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.81.0"
+        tag: "v0.82.2"
       securityContext:
         capabilities:
           drop:
@@ -95,7 +121,7 @@ k8s-monitoring:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.81.0"
+        tag: "v0.82.2"
       securityContext:
         capabilities:
           drop:
@@ -131,6 +157,13 @@ k8s-monitoring:
     enabled: false
     collector: alloy-logs
 
+# Modified Service Monitor configuration and deployment at root level avoid alloy-operator scheme issues
+# For additional valid configuration options, please see the [Alloy Helm chart documentation](https://github.com/grafana/alloy/tree/main/operations/helm/charts/alloy)
+serviceMonitors: []
+  # - name: ""
+  #   selectorLabels: {}
+  #   scheme: ""
+
 networkPolicies:
   # -- Toggle networkPolicies
   enabled: false
@@ -139,6 +172,9 @@ networkPolicies:
   # Used by package NetworkPolicies to allow Kube API access
   controlPlaneCidr: 0.0.0.0/0
   additionalPolicies: []
+
+  defaultSelectorKey: "app.kubernetes.io/instance"
+  defaultSelectorValues: ["alloy", "alloy-alloy-logs"]
 
   # -- NetworkPolicy selectors and ports for
   # egress to downstream telemetry ingestion services.
@@ -205,7 +241,6 @@ istio:
     # PERMISSIVE = Allow both plain text and mutual TLS traffic
     mode: STRICT
 
-
 bbtests:
   enabled: false
   cypress:
@@ -213,4 +248,3 @@ bbtests:
     envs:
       cypress_prometheus_url: 'https://prometheus.dev.bigbang.mil'
       cypress_alertmanager_url: 'https://alertmanager.dev.bigbang.mil'
-

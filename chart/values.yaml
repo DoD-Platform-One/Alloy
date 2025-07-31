@@ -5,7 +5,7 @@
 global:
   image:
     registry: registry1.dso.mil
-    pullSecrets: 
+    pullSecrets:
       - name: private-registry
   # -- Overrides the Docker registry globally for all images
   imageRegistry: registry1.dso.mil
@@ -21,7 +21,7 @@ global:
   #   imagePullSecrets:
   #   - pullSecret1
   #   - pullSecret2
-  imagePullSecrets: 
+  imagePullSecrets:
     - name: private-registry
 
 k8s-monitoring:
@@ -38,7 +38,7 @@ k8s-monitoring:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.82.2"
+        tag: "v0.84.0"
       securityContext:
         capabilities:
           drop:
@@ -60,12 +60,12 @@ k8s-monitoring:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: "v1.8.3"
+      tag: "v1.10.0"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.82.2"
+        tag: "v0.84.0"
       securityContext:
         capabilities:
           drop:
@@ -87,12 +87,12 @@ k8s-monitoring:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: "v1.8.3"
+      tag: "v1.10.0"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.82.2"
+        tag: "v0.84.0"
       securityContext:
         capabilities:
           drop:
@@ -116,12 +116,12 @@ k8s-monitoring:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: "v1.8.3"
+      tag: "v1.10.0"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.82.2"
+        tag: "v0.84.0"
       securityContext:
         capabilities:
           drop:
@@ -152,7 +152,7 @@ k8s-monitoring:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/grafana/alloy
-        tag: "v1.8.3"
+        tag: "v1.10.0"
   podLogs:
     enabled: false
     collector: alloy-logs

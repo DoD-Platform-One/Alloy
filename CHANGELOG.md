@@ -2,6 +2,13 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.1-bb.0] (2025-07-31)
+### Changed
+- k8s-monitoring updated from 3.0.2 to 3.2.1
+- gluon updated from 0.6.2 to 0.7.0
+- registry1.dso.mil/ironbank/opensource/grafana/alloy updated from v1.8.3 to v1.10.0
+- registry1.dso.mil/ironbank/opensource/prometheus-operator/prometheus-config-reloader updated from v0.82.2 to v0.84.0
+
 ## [3.0.2-bb.0] (2025-06-23)
 ### Changed
 - k8s-monitoring updated from 2.0.27 to 3.0.2

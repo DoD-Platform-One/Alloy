@@ -146,7 +146,6 @@ You will want to install with:
 
 - Istio package enabled
 - Loki package enabled
-- Promtail disabled
 
 **`overrides/alloy.yaml`**
 
@@ -173,9 +172,6 @@ istioGateway:
 
 loki:
   enabled: true
-
-promtail:
-  enabled: false
 
 alloy:
   enabled: true

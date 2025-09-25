@@ -2,6 +2,13 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.1-bb.2] (2025-09-23)
+### Added
+- Added additional runAs securityContext for alloy-operator container
+
+### Changed
+- gluon updated from 0.7.0 to 0.9.1
+
 ## [3.2.1-bb.1] (2025-07-31)
 ### Changed
 - Modified netpol allow-kube-apiserver-egress logic to prevent Endpoint updates from breaking connectivity to the kube API.

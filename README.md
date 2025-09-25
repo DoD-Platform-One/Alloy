@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 3.2.1-bb.1](https://img.shields.io/badge/Version-3.2.1--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.2.1](https://img.shields.io/badge/AppVersion-3.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 3.2.1-bb.2](https://img.shields.io/badge/Version-3.2.1--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.2.1](https://img.shields.io/badge/AppVersion-3.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -54,6 +54,8 @@ helm install k8s-monitoring chart/
 | k8s-monitoring.alloy-operator.configReloader.image.repository | string | `"ironbank/opensource/prometheus-operator/prometheus-config-reloader"` |  |
 | k8s-monitoring.alloy-operator.configReloader.image.tag | string | `"v0.84.0"` |  |
 | k8s-monitoring.alloy-operator.configReloader.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| k8s-monitoring.alloy-operator.securityContext.runAsUser | int | `1001` |  |
+| k8s-monitoring.alloy-operator.securityContext.runAsGroup | int | `1001` |  |
 | k8s-monitoring.alloy-operator.alloy.enableReporting | bool | `false` |  |
 | k8s-monitoring.alloy-operator.alloy.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | k8s-monitoring.alloy-operator.controller.securityContext.capabilities.drop[0] | string | `"ALL"` |  |

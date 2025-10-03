@@ -28,7 +28,7 @@ alloy:
   values:
     bbtests:
       enabled: false
-    k8s-monitoring:
+    upstream:
       destinations:
         - name: loki
           type: loki

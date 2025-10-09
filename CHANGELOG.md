@@ -2,6 +2,10 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.1-bb.3] (2025-09-29)
+### Changed
+- Added upstream alias to k8s-monitoring chart dependency to conform with Big Bang passthrough standards.
+
 ## [3.2.1-bb.2] (2025-09-23)
 ### Added
 - Added additional runAs securityContext for alloy-operator container

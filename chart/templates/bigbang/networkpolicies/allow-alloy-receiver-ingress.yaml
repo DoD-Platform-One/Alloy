@@ -19,7 +19,7 @@ spec:
   # Since OTLP traffic can and should come from anywhere,
   # we don't want to restrict the source.
   - ports:
-    {{- range (index .Values "k8s-monitoring" "alloy-receiver" "alloy" "extraPorts" ) }}
+    {{- range (index .Values "upstream" "alloy-receiver" "alloy" "extraPorts" ) }}
     - port: {{ .port }}
     {{- end }}    
 {{- end }}

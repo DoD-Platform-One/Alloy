@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 3.2.1-bb.2](https://img.shields.io/badge/Version-3.2.1--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.2.1](https://img.shields.io/badge/AppVersion-3.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 3.2.1-bb.3](https://img.shields.io/badge/Version-3.2.1--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.2.1](https://img.shields.io/badge/AppVersion-3.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -46,67 +46,6 @@ helm install k8s-monitoring chart/
 | global.image.pullSecrets[0].name | string | `"private-registry"` |  |
 | global.imageRegistry | string | `"registry1.dso.mil"` | Overrides the Docker registry globally for all images |
 | global.imagePullSecrets[0].name | string | `"private-registry"` |  |
-| k8s-monitoring.cluster | object | `{"name":"bigbang"}` | NOTE: k8s-monitoring features, collectors, and destinations are disabled by default. These components are enabled through the Big Bang umbrella chart as they are dependent on other services. |
-| k8s-monitoring.alloy-operator.image.registry | string | `"registry1.dso.mil"` |  |
-| k8s-monitoring.alloy-operator.image.repository | string | `"ironbank/opensource/grafana/alloy-operator"` |  |
-| k8s-monitoring.alloy-operator.image.tag | string | `"0.3.1"` |  |
-| k8s-monitoring.alloy-operator.configReloader.image.registry | string | `"registry1.dso.mil"` |  |
-| k8s-monitoring.alloy-operator.configReloader.image.repository | string | `"ironbank/opensource/prometheus-operator/prometheus-config-reloader"` |  |
-| k8s-monitoring.alloy-operator.configReloader.image.tag | string | `"v0.84.0"` |  |
-| k8s-monitoring.alloy-operator.configReloader.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| k8s-monitoring.alloy-operator.securityContext.runAsUser | int | `1001` |  |
-| k8s-monitoring.alloy-operator.securityContext.runAsGroup | int | `1001` |  |
-| k8s-monitoring.alloy-operator.alloy.enableReporting | bool | `false` |  |
-| k8s-monitoring.alloy-operator.alloy.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| k8s-monitoring.alloy-operator.controller.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| k8s-monitoring.alloy-metrics.enabled | bool | `false` |  |
-| k8s-monitoring.alloy-metrics.image.registry | string | `"registry1.dso.mil"` |  |
-| k8s-monitoring.alloy-metrics.image.repository | string | `"ironbank/opensource/grafana/alloy"` |  |
-| k8s-monitoring.alloy-metrics.image.tag | string | `"v1.10.0"` |  |
-| k8s-monitoring.alloy-metrics.configReloader.image.registry | string | `"registry1.dso.mil"` |  |
-| k8s-monitoring.alloy-metrics.configReloader.image.repository | string | `"ironbank/opensource/prometheus-operator/prometheus-config-reloader"` |  |
-| k8s-monitoring.alloy-metrics.configReloader.image.tag | string | `"v0.84.0"` |  |
-| k8s-monitoring.alloy-metrics.configReloader.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| k8s-monitoring.alloy-metrics.alloy.enableReporting | bool | `false` |  |
-| k8s-monitoring.alloy-metrics.alloy.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| k8s-monitoring.alloy-metrics.controller.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| k8s-monitoring.alloy-logs.enabled | bool | `false` |  |
-| k8s-monitoring.alloy-logs.image.registry | string | `"registry1.dso.mil"` |  |
-| k8s-monitoring.alloy-logs.image.repository | string | `"ironbank/opensource/grafana/alloy"` |  |
-| k8s-monitoring.alloy-logs.image.tag | string | `"v1.10.0"` |  |
-| k8s-monitoring.alloy-logs.configReloader.image.registry | string | `"registry1.dso.mil"` |  |
-| k8s-monitoring.alloy-logs.configReloader.image.repository | string | `"ironbank/opensource/prometheus-operator/prometheus-config-reloader"` |  |
-| k8s-monitoring.alloy-logs.configReloader.image.tag | string | `"v0.84.0"` |  |
-| k8s-monitoring.alloy-logs.configReloader.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| k8s-monitoring.alloy-logs.alloy.enableReporting | bool | `false` |  |
-| k8s-monitoring.alloy-logs.alloy.securityContext.privileged | bool | `false` |  |
-| k8s-monitoring.alloy-logs.alloy.securityContext.runAsUser | int | `0` |  |
-| k8s-monitoring.alloy-logs.alloy.securityContext.runAsGroup | int | `0` |  |
-| k8s-monitoring.alloy-logs.alloy.securityContext.seLinuxOptions.type | string | `"spc_t"` |  |
-| k8s-monitoring.applicationObservability.enabled | bool | `false` |  |
-| k8s-monitoring.applicationObservability.receivers.otlp.grpc.enabled | bool | `true` |  |
-| k8s-monitoring.alloy-receiver.enabled | bool | `false` |  |
-| k8s-monitoring.alloy-receiver.image.registry | string | `"registry1.dso.mil"` |  |
-| k8s-monitoring.alloy-receiver.image.repository | string | `"ironbank/opensource/grafana/alloy"` |  |
-| k8s-monitoring.alloy-receiver.image.tag | string | `"v1.10.0"` |  |
-| k8s-monitoring.alloy-receiver.configReloader.image.registry | string | `"registry1.dso.mil"` |  |
-| k8s-monitoring.alloy-receiver.configReloader.image.repository | string | `"ironbank/opensource/prometheus-operator/prometheus-config-reloader"` |  |
-| k8s-monitoring.alloy-receiver.configReloader.image.tag | string | `"v0.84.0"` |  |
-| k8s-monitoring.alloy-receiver.configReloader.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| k8s-monitoring.alloy-receiver.alloy.enableReporting | bool | `false` |  |
-| k8s-monitoring.alloy-receiver.alloy.extraPorts[0].name | string | `"otlp-grpc"` |  |
-| k8s-monitoring.alloy-receiver.alloy.extraPorts[0].port | int | `4317` |  |
-| k8s-monitoring.alloy-receiver.alloy.extraPorts[0].targetPort | int | `4317` |  |
-| k8s-monitoring.alloy-receiver.alloy.extraPorts[0].protocol | string | `"TCP"` |  |
-| k8s-monitoring.alloy-receiver.alloy.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| k8s-monitoring.alloy-receiver.alloy.securityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
-| k8s-monitoring.alloy-receiver.controller.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| k8s-monitoring.integrations.alloy.enableReporting | bool | `false` |  |
-| k8s-monitoring.integrations.alloy.image.registry | string | `"registry1.dso.mil"` |  |
-| k8s-monitoring.integrations.alloy.image.repository | string | `"ironbank/opensource/grafana/alloy"` |  |
-| k8s-monitoring.integrations.alloy.image.tag | string | `"v1.10.0"` |  |
-| k8s-monitoring.podLogs.enabled | bool | `false` |  |
-| k8s-monitoring.podLogs.collector | string | `"alloy-logs"` |  |
 | serviceMonitors | list | `[]` |  |
 | networkPolicies.enabled | bool | `false` | Toggle networkPolicies |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Control Plane CIDR, defaults to 0.0.0.0/0, use `kubectl get endpoints -n default kubernetes` to get the CIDR range needed for your cluster Must be an IP CIDR range (x.x.x.x/x - ideally with /32 for the specific IP of a single endpoint, broader range for multiple masters/endpoints) Used by package NetworkPolicies to allow Kube API access |
@@ -125,6 +64,7 @@ helm install k8s-monitoring chart/
 | bbtests.cypress.artifacts | bool | `true` |  |
 | bbtests.cypress.envs.cypress_prometheus_url | string | `"https://prometheus.dev.bigbang.mil"` |  |
 | bbtests.cypress.envs.cypress_alertmanager_url | string | `"https://alertmanager.dev.bigbang.mil"` |  |
+| upstream | object | Upstream chart values | Values to pass to [the upstream k8s-monitoring chart](https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring/values.yaml) |
 
 ## Contributing
 

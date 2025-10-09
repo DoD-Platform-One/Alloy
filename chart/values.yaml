@@ -24,8 +24,103 @@ global:
   imagePullSecrets:
     - name: private-registry
 
-k8s-monitoring:
-# -- NOTE: k8s-monitoring features, collectors, and destinations are disabled by default.
+# Modified Service Monitor configuration and deployment at root level avoid alloy-operator scheme issues
+# For additional valid configuration options, please see the [Alloy Helm chart documentation](https://github.com/grafana/alloy/tree/main/operations/helm/charts/alloy)
+serviceMonitors: []
+  # - name: ""
+  #   selectorLabels: {}
+  #   scheme: ""
+
+networkPolicies:
+  # -- Toggle networkPolicies
+  enabled: false
+  # -- Control Plane CIDR, defaults to 0.0.0.0/0, use `kubectl get endpoints -n default kubernetes` to get the CIDR range needed for your cluster
+  # Must be an IP CIDR range (x.x.x.x/x - ideally with /32 for the specific IP of a single endpoint, broader range for multiple masters/endpoints)
+  # Used by package NetworkPolicies to allow Kube API access
+  controlPlaneCidr: 0.0.0.0/0
+  additionalPolicies: []
+
+  defaultSelectorKey: "app.kubernetes.io/instance"
+  defaultSelectorValues: ["alloy", "alloy-alloy-logs"]
+
+  # -- NetworkPolicy selectors and ports for
+  # egress to downstream telemetry ingestion services.
+  # These should be uncommented and overridden if any
+  # of these values deviate from the Big Bang defaults.
+  egress: {}
+    #
+    # prometheus:
+    #   ports:
+    #     - 9090
+    #   namespaceSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: monitoring
+    #   podSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: prometheus
+    # loki:
+    #   ports:
+    #     - 3100
+    #   namespaceSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: logging
+    #   podSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: loki-logging
+    # tempo:
+    #   ports:
+    #     - 4317
+    #   namespaceSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: tempo
+    #   podSelector:
+    #     matchLabels:
+    #       app.kubernetes.io/name: tempo
+
+autoRollingUpgrade:
+  enabled: true
+  image:
+    repository: registry1.dso.mil/ironbank/big-bang/base
+    tag: 2.1.0
+
+istio:
+  # -- Toggle istio configuration
+  enabled: false
+  # -- Default peer authentication values
+  hardened:
+    enabled: false
+    outboundTrafficPolicyMode: "REGISTRY_ONLY"
+    customServiceEntries: []
+      # - name: "allow-google"
+      #   enabled: true
+      #   spec:
+      #     hosts:
+      #       - google.com
+      #     location: MESH_EXTERNAL
+      #     ports:
+      #       - number: 443
+      #         protocol: TLS
+      #         name: https
+      #     resolution: DNS
+
+  mtls:
+    # -- STRICT = Allow only mutual TLS traffic,
+    # PERMISSIVE = Allow both plain text and mutual TLS traffic
+    mode: STRICT
+
+bbtests:
+  enabled: false
+  cypress:
+    artifacts: true
+    envs:
+      cypress_prometheus_url: 'https://prometheus.dev.bigbang.mil'
+      cypress_alertmanager_url: 'https://alertmanager.dev.bigbang.mil'
+
+
+# -- Values to pass to [the upstream k8s-monitoring chart](https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring/values.yaml)
+# @default -- Upstream chart values
+upstream:
+# NOTE: k8s-monitoring features, collectors, and destinations are disabled by default.
 # These components are enabled through the Big Bang umbrella chart as they are dependent on other services.
   cluster:
     name: bigbang
@@ -159,95 +254,3 @@ k8s-monitoring:
   podLogs:
     enabled: false
     collector: alloy-logs
-
-# Modified Service Monitor configuration and deployment at root level avoid alloy-operator scheme issues
-# For additional valid configuration options, please see the [Alloy Helm chart documentation](https://github.com/grafana/alloy/tree/main/operations/helm/charts/alloy)
-serviceMonitors: []
-  # - name: ""
-  #   selectorLabels: {}
-  #   scheme: ""
-
-networkPolicies:
-  # -- Toggle networkPolicies
-  enabled: false
-  # -- Control Plane CIDR, defaults to 0.0.0.0/0, use `kubectl get endpoints -n default kubernetes` to get the CIDR range needed for your cluster
-  # Must be an IP CIDR range (x.x.x.x/x - ideally with /32 for the specific IP of a single endpoint, broader range for multiple masters/endpoints)
-  # Used by package NetworkPolicies to allow Kube API access
-  controlPlaneCidr: 0.0.0.0/0
-  additionalPolicies: []
-
-  defaultSelectorKey: "app.kubernetes.io/instance"
-  defaultSelectorValues: ["alloy", "alloy-alloy-logs"]
-
-  # -- NetworkPolicy selectors and ports for
-  # egress to downstream telemetry ingestion services.
-  # These should be uncommented and overridden if any
-  # of these values deviate from the Big Bang defaults.
-  egress: {}
-    #
-    # prometheus:
-    #   ports:
-    #     - 9090
-    #   namespaceSelector:
-    #     matchLabels:
-    #       app.kubernetes.io/name: monitoring
-    #   podSelector:
-    #     matchLabels:
-    #       app.kubernetes.io/name: prometheus
-    # loki:
-    #   ports:
-    #     - 3100
-    #   namespaceSelector:
-    #     matchLabels:
-    #       app.kubernetes.io/name: logging
-    #   podSelector:
-    #     matchLabels:
-    #       app.kubernetes.io/name: loki-logging
-    # tempo:
-    #   ports:
-    #     - 4317
-    #   namespaceSelector:
-    #     matchLabels:
-    #       app.kubernetes.io/name: tempo
-    #   podSelector:
-    #     matchLabels:
-    #       app.kubernetes.io/name: tempo
-
-autoRollingUpgrade:
-  enabled: true
-  image:
-    repository: registry1.dso.mil/ironbank/big-bang/base
-    tag: 2.1.0
-
-istio:
-  # -- Toggle istio configuration
-  enabled: false
-  # -- Default peer authentication values
-  hardened:
-    enabled: false
-    outboundTrafficPolicyMode: "REGISTRY_ONLY"
-    customServiceEntries: []
-      # - name: "allow-google"
-      #   enabled: true
-      #   spec:
-      #     hosts:
-      #       - google.com
-      #     location: MESH_EXTERNAL
-      #     ports:
-      #       - number: 443
-      #         protocol: TLS
-      #         name: https
-      #     resolution: DNS
-
-  mtls:
-    # -- STRICT = Allow only mutual TLS traffic,
-    # PERMISSIVE = Allow both plain text and mutual TLS traffic
-    mode: STRICT
-
-bbtests:
-  enabled: false
-  cypress:
-    artifacts: true
-    envs:
-      cypress_prometheus_url: 'https://prometheus.dev.bigbang.mil'
-      cypress_alertmanager_url: 'https://alertmanager.dev.bigbang.mil'

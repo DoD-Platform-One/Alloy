@@ -2,6 +2,10 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.1-bb.4] (2025-10-17)
+### Changed
+- Updated the allow-kube-apiserver-egress network policy template to allow setting vpcCidr
+
 ## [3.2.1-bb.3] (2025-09-29)
 ### Changed
 - Added upstream alias to k8s-monitoring chart dependency to conform with Big Bang passthrough standards.

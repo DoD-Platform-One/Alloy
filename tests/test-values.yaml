@@ -55,6 +55,9 @@ loki:
       replicas: 3
     bbtests:
       enabled: true
+      scripts:
+        envs:
+          LOKI_URL: 'http://logging-loki-write.logging.svc:3100'
 grafana:
   enabled: true
   values:

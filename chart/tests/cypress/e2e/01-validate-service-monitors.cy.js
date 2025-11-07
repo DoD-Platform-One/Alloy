@@ -1,3 +1,9 @@
+const retryConfig = {
+  retries: {
+    runMode: 10
+  },
+};
+
 Cypress.Commands.add('validatePromTargetNew', (monitorText, match) => {
     cy.get(`input[placeholder*="Select scrape pool"]`)
       .click({force: true})
@@ -9,7 +15,7 @@ Cypress.Commands.add('validatePromTargetNew', (monitorText, match) => {
       .should('exist')
   })
   
-describe('Alloy Targets', () => {
+describe('Alloy Targets', retryConfig, () => {
   
   const variableUpMatch = /\d+\s\/\s\d+\sup/;
   

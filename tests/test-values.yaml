@@ -27,7 +27,7 @@ alloy:
     enabled: true
   values:
     bbtests:
-      enabled: false
+      enabled: true
     upstream:
       destinations:
         - name: loki

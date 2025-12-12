@@ -28,6 +28,20 @@ alloy:
   values:
     bbtests:
       enabled: true
+    istio:
+      serviceEntries:
+        custom:
+          - name: "cypress-service-entries-alloy"
+            enabled: true
+            spec:
+              hosts:
+                - 'loki.dev.bigbang.mil'
+              location: MESH_EXTERNAL
+              ports:
+                - number: 443
+                  protocol: TLS
+                  name: https
+              resolution: DNS
     upstream:
       destinations:
         - name: loki

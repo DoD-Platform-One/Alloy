@@ -2,7 +2,7 @@ apiVersion: v2
 name: k8s-monitoring
 description: A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 type: application
-version: 3.2.1-bb.5
+version: 3.2.1-bb.6
 appVersion: 3.2.1
 icon: https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg
 sources:
@@ -27,5 +27,8 @@ dependencies:
     repository: https://grafana.github.io/helm-charts
     alias: upstream
   - name: gluon
-    version: "0.9.1"
+    version: "0.9.6"
+    repository: oci://registry1.dso.mil/bigbang
+  - name: bb-common
+    version: "0.11.1"
     repository: oci://registry1.dso.mil/bigbang

@@ -73,10 +73,6 @@ NOTE: Alloy Renovate updates differ from most other Big Bang Renovate updates be
         git:
           tag: null
           branch: "renovate/ironbank"
-        values:
-          istio:
-            hardened:
-              enabled: true
         ### Additional components of Alloy should be changed to reflect testing changes introduced in the package MR
     ```
 
@@ -123,18 +119,6 @@ NOTE: Alloy Renovate updates differ from most other Big Bang Renovate updates be
 ## Modifications made to upstream
 
 This is a high-level list of modifications that Big Bang has made to the upstream helm chart. You can use this as as cross-check to make sure that no modifications were lost during the upgrade process.
-
-### `chart/values.yaml`
-
-- Ensure istio defaults are set
-
-  ```yaml
-  istio:
-    enabled: false
-    namespace: istio-system
-    hardened:
-      enabled: false
-  ```
 
 ## Testing new Alloy Version
 

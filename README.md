@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 3.2.1-bb.5](https://img.shields.io/badge/Version-3.2.1--bb.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.2.1](https://img.shields.io/badge/AppVersion-3.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 3.2.1-bb.6](https://img.shields.io/badge/Version-3.2.1--bb.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.2.1](https://img.shields.io/badge/AppVersion-3.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -48,23 +48,31 @@ helm install k8s-monitoring chart/
 | global.imagePullSecrets[0].name | string | `"private-registry"` |  |
 | serviceMonitors | list | `[]` |  |
 | networkPolicies.enabled | bool | `false` | Toggle networkPolicies |
-| networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Control Plane CIDR, defaults to 0.0.0.0/0, use `kubectl get endpoints -n default kubernetes` to get the CIDR range needed for your cluster Must be an IP CIDR range (x.x.x.x/x - ideally with /32 for the specific IP of a single endpoint, broader range for multiple masters/endpoints) Used by package NetworkPolicies to allow Kube API access |
-| networkPolicies.vpcCidr | string | `"0.0.0.0/0"` |  |
-| networkPolicies.additionalPolicies | list | `[]` |  |
-| networkPolicies.defaultSelectorKey | string | `"app.kubernetes.io/instance"` |  |
-| networkPolicies.defaultSelectorValues[0] | string | `"alloy"` |  |
-| networkPolicies.defaultSelectorValues[1] | string | `"alloy-alloy-logs"` |  |
-| networkPolicies.egress | object | `{}` | NetworkPolicy selectors and ports for egress to downstream telemetry ingestion services. These should be uncommented and overridden if any of these values deviate from the Big Bang defaults. |
+| networkPolicies.ingress.to.alloy-logs:12345.from.k8s.monitoring-monitoring-kube-prometheus@monitoring/prometheus.enabled | bool | `true` |  |
+| networkPolicies.egress.defaults.enabled | bool | `true` |  |
+| networkPolicies.egress.from.alloy-logs.to.definition.kubeAPI | bool | `true` |  |
+| networkPolicies.egress.from.alloy-logs.to.k8s.logging/logging-loki:3100.enabled | bool | `true` |  |
+| networkPolicies.egress.from.alloy-logs.to.k8s.logging/logging-loki:3100.namespaceSelector.matchLabels."app.kubernetes.io/name" | string | `"logging"` |  |
+| networkPolicies.egress.from.alloy-logs.to.k8s.logging/logging-loki:3100.podSelector.matchLabels."app.kubernetes.io/name" | string | `"logging-loki"` |  |
+| networkPolicies.egress.from.alloy-operator.to.definition.kubeAPI | bool | `true` |  |
 | autoRollingUpgrade.enabled | bool | `true` |  |
 | autoRollingUpgrade.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` |  |
 | autoRollingUpgrade.image.tag | string | `"2.1.0"` |  |
-| istio.enabled | bool | `false` | Toggle istio configuration |
-| istio.hardened | object | `{"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"}` | Default peer authentication values |
-| istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
+| istio.enabled | bool | `false` |  |
+| istio.sidecar.enabled | bool | `false` |  |
+| istio.sidecar.outboundTrafficPolicyMode | string | `"REGISTRY_ONLY"` |  |
+| istio.serviceEntries.custom | list | `[]` |  |
+| istio.authorizationPolicies.enabled | bool | `false` |  |
+| istio.authorizationPolicies.custom | list | `[]` |  |
+| istio.mtls.mode | string | `"STRICT"` |  |
 | bbtests.enabled | bool | `false` |  |
 | bbtests.cypress.artifacts | bool | `true` |  |
 | bbtests.cypress.envs.cypress_prometheus_url | string | `"https://prometheus.dev.bigbang.mil"` |  |
 | bbtests.cypress.envs.cypress_alertmanager_url | string | `"https://alertmanager.dev.bigbang.mil"` |  |
+| bbtests.scripts.envs.LOKI_SERVICE | string | `"loki.dev.bigbang.mil"` |  |
+| bbtests.scripts.envs.TIMEOUT | string | `"10"` |  |
+| bbtests.scripts.envs.RETRIES | string | `"5"` |  |
+| bbtests.scripts.envs.RETRIES | string | `"7"` |  |
 | upstream | object | Upstream chart values | Values to pass to [the upstream k8s-monitoring chart](https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring/values.yaml) |
 
 ## Contributing

@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 3.2.1-bb.6](https://img.shields.io/badge/Version-3.2.1--bb.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.2.1](https://img.shields.io/badge/AppVersion-3.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 3.7.2-bb.0](https://img.shields.io/badge/Version-3.7.2--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.7.2](https://img.shields.io/badge/AppVersion-3.7.2-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -48,12 +48,10 @@ helm install k8s-monitoring chart/
 | global.imagePullSecrets[0].name | string | `"private-registry"` |  |
 | serviceMonitors | list | `[]` |  |
 | networkPolicies.enabled | bool | `false` | Toggle networkPolicies |
-| networkPolicies.ingress.to.alloy-logs:12345.from.k8s.monitoring-monitoring-kube-prometheus@monitoring/prometheus.enabled | bool | `true` |  |
+| networkPolicies.ingress.to.alloy-logs:12345.from.k8s.monitoring-monitoring-kube-prometheus@monitoring/prometheus | bool | `true` |  |
 | networkPolicies.egress.defaults.enabled | bool | `true` |  |
 | networkPolicies.egress.from.alloy-logs.to.definition.kubeAPI | bool | `true` |  |
-| networkPolicies.egress.from.alloy-logs.to.k8s.logging/logging-loki:3100.enabled | bool | `true` |  |
-| networkPolicies.egress.from.alloy-logs.to.k8s.logging/logging-loki:3100.namespaceSelector.matchLabels."app.kubernetes.io/name" | string | `"logging"` |  |
-| networkPolicies.egress.from.alloy-logs.to.k8s.logging/logging-loki:3100.podSelector.matchLabels."app.kubernetes.io/name" | string | `"logging-loki"` |  |
+| networkPolicies.egress.from.alloy-logs.to.k8s.logging/logging-loki:3100 | bool | `true` |  |
 | networkPolicies.egress.from.alloy-operator.to.definition.kubeAPI | bool | `true` |  |
 | autoRollingUpgrade.enabled | bool | `true` |  |
 | autoRollingUpgrade.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` |  |
@@ -71,7 +69,6 @@ helm install k8s-monitoring chart/
 | bbtests.cypress.envs.cypress_alertmanager_url | string | `"https://alertmanager.dev.bigbang.mil"` |  |
 | bbtests.scripts.envs.LOKI_SERVICE | string | `"loki.dev.bigbang.mil"` |  |
 | bbtests.scripts.envs.TIMEOUT | string | `"10"` |  |
-| bbtests.scripts.envs.RETRIES | string | `"5"` |  |
 | bbtests.scripts.envs.RETRIES | string | `"7"` |  |
 | upstream | object | Upstream chart values | Values to pass to [the upstream k8s-monitoring chart](https://github.com/grafana/k8s-monitoring-helm/blob/main/charts/k8s-monitoring/values.yaml) |
 

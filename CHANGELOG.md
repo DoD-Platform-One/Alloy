@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.2-bb.0] (2026-01-15)
+### Changed
+- k8s-monitoring updated from 3.2.1 to 3.7.2
+- bb-common updated from 0.11.1 to 0.12.3
+- gluon updated from 0.9.6 to 0.9.7
+
 ## [3.2.1-bb.6] (2025-12-10)
 ### Added
 - Added script test to verify logs are shipped to Loki

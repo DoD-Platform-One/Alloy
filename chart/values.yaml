@@ -107,6 +107,12 @@ upstream:
   cluster:
     name: bigbang
   alloy-operator:
+    waitForAlloyRemoval:
+      enabled: true
+      image:
+        registry: registry1.dso.mil
+        repository: ironbank/opensource/grafana/helm-chart-toolbox-kubectl
+        tag: "1.0"
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy-operator
@@ -115,7 +121,7 @@ upstream:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.84.0"
+        tag: "v0.81.0"
       securityContext:
         capabilities:
           drop:
@@ -140,12 +146,12 @@ upstream:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: "v1.10.0"
+      tag: "v1.12.2"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.84.0"
+        tag: "v0.81.0"
       securityContext:
         capabilities:
           drop:
@@ -167,12 +173,12 @@ upstream:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: "v1.10.0"
+      tag: "v1.12.2"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.84.0"
+        tag: "v0.81.0"
       securityContext:
         capabilities:
           drop:
@@ -196,12 +202,12 @@ upstream:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: "v1.10.0"
+      tag: "v1.12.2"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.84.0"
+        tag: "v0.81.0"
       securityContext:
         capabilities:
           drop:
@@ -232,7 +238,7 @@ upstream:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/grafana/alloy
-        tag: "v1.10.0"
+        tag: "v1.12.2"
   podLogs:
     enabled: false
     collector: alloy-logs

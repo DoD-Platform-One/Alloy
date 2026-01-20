@@ -116,12 +116,12 @@ upstream:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy-operator
-      tag: "0.3.1"
+      tag: "0.3.15"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.81.0"
+        tag: "v0.88.0"
       securityContext:
         capabilities:
           drop:
@@ -151,7 +151,7 @@ upstream:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.81.0"
+        tag: "v0.88.0"
       securityContext:
         capabilities:
           drop:
@@ -178,7 +178,7 @@ upstream:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.81.0"
+        tag: "v0.88.0"
       securityContext:
         capabilities:
           drop:
@@ -207,7 +207,7 @@ upstream:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.81.0"
+        tag: "v0.88.0"
       securityContext:
         capabilities:
           drop:

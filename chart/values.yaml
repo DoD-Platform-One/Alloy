@@ -45,7 +45,6 @@ networkPolicies:
   egress:
     defaults:
       enabled: true
-
     from:
       alloy-logs:
         to:
@@ -60,6 +59,12 @@ networkPolicies:
         to:
           definition:
             # Allow alloy-operator to manage Alloy CRDs and deployments via Kubernetes API
+            kubeAPI: true
+      
+      alloy-upstream:
+        to:
+          definition:
+            # Allow alloy-upstream finalizer job to connect to Kube API
             kubeAPI: true
 
 autoRollingUpgrade:

@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 3.7.2-bb.2](https://img.shields.io/badge/Version-3.7.2--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.7.2](https://img.shields.io/badge/AppVersion-3.7.2-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 3.7.2-bb.3](https://img.shields.io/badge/Version-3.7.2--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.7.2](https://img.shields.io/badge/AppVersion-3.7.2-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -48,7 +48,11 @@ helm install k8s-monitoring chart/
 | global.imagePullSecrets[0].name | string | `"private-registry"` |  |
 | serviceMonitors | list | `[]` |  |
 | networkPolicies.enabled | bool | `false` | Toggle networkPolicies |
+| networkPolicies.ingress.to.alloy-receiver:12345.from.k8s.alloy-alloy-metrics@alloy/alloy-metrics | bool | `true` |  |
+| networkPolicies.ingress.to.alloy-receiver:12345.from.k8s.monitoring-monitoring-kube-prometheus@monitoring/prometheus | bool | `true` |  |
+| networkPolicies.ingress.to.alloy-logs:12345.from.k8s.alloy-alloy-metrics@alloy/alloy-metrics | bool | `true` |  |
 | networkPolicies.ingress.to.alloy-logs:12345.from.k8s.monitoring-monitoring-kube-prometheus@monitoring/prometheus | bool | `true` |  |
+| networkPolicies.ingress.to.alloy-metrics:12345.from.k8s.monitoring-monitoring-kube-prometheus@monitoring/prometheus | bool | `true` |  |
 | networkPolicies.egress.defaults.enabled | bool | `true` |  |
 | networkPolicies.egress.from.alloy-logs.to.definition.kubeAPI | bool | `true` |  |
 | networkPolicies.egress.from.alloy-logs.to.k8s.logging/logging-loki:3100 | bool | `true` |  |

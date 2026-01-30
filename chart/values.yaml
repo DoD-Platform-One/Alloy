@@ -37,8 +37,28 @@ networkPolicies:
 
   ingress:
     to:
-      # Allow Prometheus to scrape metrics from alloy-logs service for monitoring
+      # Allow alloy-metrics and Prometheus to scrape metrics from alloy-receiver
+      alloy-receiver:12345:
+        from:
+          k8s:
+            # Allow alloy-metrics pod (same namespace) to scrape alloy-receiver
+            # Use full sa@namespace/pod format for AuthorizationPolicy principal matching
+            alloy-alloy-metrics@alloy/alloy-metrics: true
+            # Allow Prometheus to scrape metrics from alloy-receiver
+            monitoring-monitoring-kube-prometheus@monitoring/prometheus: true
+
+      # Allow alloy-metrics and Prometheus to scrape metrics from alloy-logs
       alloy-logs:12345:
+        from:
+          k8s:
+            # Allow alloy-metrics pod (same namespace) to scrape alloy-logs
+            # Use full sa@namespace/pod format for AuthorizationPolicy principal matching
+            alloy-alloy-metrics@alloy/alloy-metrics: true
+            # Allow Prometheus to scrape metrics from alloy-logs
+            monitoring-monitoring-kube-prometheus@monitoring/prometheus: true
+
+      # Allow Prometheus to scrape metrics from alloy-metrics
+      alloy-metrics:12345:
         from:
           k8s:
             monitoring-monitoring-kube-prometheus@monitoring/prometheus: true

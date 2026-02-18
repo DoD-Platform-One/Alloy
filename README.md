@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # k8s-monitoring
 
-![Version: 3.7.2-bb.3](https://img.shields.io/badge/Version-3.7.2--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.7.2](https://img.shields.io/badge/AppVersion-3.7.2-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 3.7.2-bb.4](https://img.shields.io/badge/Version-3.7.2--bb.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.7.2](https://img.shields.io/badge/AppVersion-3.7.2-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 
@@ -53,11 +53,16 @@ helm install k8s-monitoring chart/
 | networkPolicies.ingress.to.alloy-logs:12345.from.k8s.alloy-alloy-metrics@alloy/alloy-metrics | bool | `true` |  |
 | networkPolicies.ingress.to.alloy-logs:12345.from.k8s.monitoring-monitoring-kube-prometheus@monitoring/prometheus | bool | `true` |  |
 | networkPolicies.ingress.to.alloy-metrics:12345.from.k8s.monitoring-monitoring-kube-prometheus@monitoring/prometheus | bool | `true` |  |
+| networkPolicies.ingress.to.alloy-receiver:4317.from.k8s.*/* | bool | `true` |  |
+| networkPolicies.ingress.to.alloy-receiver:9411.from.k8s.*/* | bool | `true` |  |
+| networkPolicies.ingress.to.alloy-receiver:12345.from.k8s.alloy-alloy-metrics@alloy/alloy-metrics | bool | `true` |  |
+| networkPolicies.ingress.to.alloy-receiver:12345.from.k8s.monitoring-monitoring-kube-prometheus@monitoring/prometheus | bool | `true` |  |
 | networkPolicies.egress.defaults.enabled | bool | `true` |  |
 | networkPolicies.egress.from.alloy-logs.to.definition.kubeAPI | bool | `true` |  |
 | networkPolicies.egress.from.alloy-logs.to.k8s.logging/logging-loki:3100 | bool | `true` |  |
 | networkPolicies.egress.from.alloy-operator.to.definition.kubeAPI | bool | `true` |  |
 | networkPolicies.egress.from.alloy-upstream.to.definition.kubeAPI | bool | `true` |  |
+| networkPolicies.egress.from.alloy-receiver.to.k8s.tempo/tempo:4317 | bool | `true` |  |
 | autoRollingUpgrade.enabled | bool | `true` |  |
 | autoRollingUpgrade.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` |  |
 | autoRollingUpgrade.image.tag | string | `"2.1.0"` |  |

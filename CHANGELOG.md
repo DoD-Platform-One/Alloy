@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.2-bb.4] (2026-02-11)
+### Added
+- Added Zipkin port (9411) to alloy-receiver extraPorts for trace collection
+- Added network policy ingress rules for alloy-receiver on ports 4317 (OTLP), 9411 (Zipkin), and 12345 (metrics)
+- Added network policy egress rule for alloy-receiver to forward traces to Tempo on port 4317
+
 ## [3.7.2-bb.3] (2026-01-29)
 ### Fixed
 - Added NetworkPolicy ingress rules for alloy-receiver, alloy-logs, and alloy-metrics to fix 502 block_all errors when Istio hardened mode is enabled

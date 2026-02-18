@@ -62,6 +62,22 @@ networkPolicies:
         from:
           k8s:
             monitoring-monitoring-kube-prometheus@monitoring/prometheus: true
+      # Allow any namespace to send traces to alloy-receiver via OTLP gRPC
+      alloy-receiver:4317:
+        from:
+          k8s:
+            "*/*": true
+      # Allow any namespace to send traces to alloy-receiver via Zipkin
+      alloy-receiver:9411:
+        from:
+          k8s:
+            "*/*": true
+      # Allow Prometheus and alloy-metrics to scrape metrics from alloy-receiver
+      alloy-receiver:12345:
+        from:
+          k8s:
+            alloy-alloy-metrics@alloy/alloy-metrics: true
+            monitoring-monitoring-kube-prometheus@monitoring/prometheus: true
   egress:
     defaults:
       enabled: true
@@ -86,6 +102,12 @@ networkPolicies:
           definition:
             # Allow alloy-upstream finalizer job to connect to Kube API
             kubeAPI: true
+
+      # Allow alloy-receiver to forward traces to Tempo backend
+      alloy-receiver:
+        to:
+          k8s:
+            tempo/tempo:4317: true
 
 autoRollingUpgrade:
   enabled: true
@@ -244,6 +266,10 @@ upstream:
       - name: otlp-grpc
         port: 4317
         targetPort: 4317
+        protocol: TCP
+      - name: zipkin
+        port: 9411
+        targetPort: 9411
         protocol: TCP
       securityContext:
         capabilities:

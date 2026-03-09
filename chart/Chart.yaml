@@ -2,7 +2,7 @@ apiVersion: v2
 name: k8s-monitoring
 description: A Helm chart for gathering, scraping, and forwarding Kubernetes telemetry data to a Grafana Stack.
 type: application
-version: 3.7.2-bb.4
+version: 3.7.2-bb.5
 appVersion: 3.7.2
 icon: https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg
 sources:
@@ -15,7 +15,7 @@ annotations:
     - name: alloy
       image: registry1.dso.mil/ironbank/opensource/grafana/alloy:v1.12.2
     - name: alloy-operator
-      image: registry1.dso.mil/ironbank/opensource/grafana/alloy-operator:0.3.15
+      image: registry1.dso.mil/ironbank/opensource/grafana/alloy-operator:1.6.0
     - name: prometheus-config-reloader
       image: registry1.dso.mil/ironbank/opensource/prometheus-operator/prometheus-config-reloader:v0.88.0
     - name: helm-chart-toolbox-kubectl

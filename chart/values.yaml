@@ -57,6 +57,15 @@ networkPolicies:
             # Allow Prometheus to scrape metrics from alloy-logs
             monitoring-monitoring-kube-prometheus@monitoring/prometheus: true
 
+      # Allow alloy-metrics and Prometheus to scrape metrics from alloy-singleton
+      alloy-singleton:12345:
+        from:
+          k8s:
+            # Allow alloy-metrics pod (same namespace) to scrape alloy-singleton
+            alloy-alloy-metrics@alloy/alloy-metrics: true
+            # Allow Prometheus to scrape metrics from alloy-singleton
+            monitoring-monitoring-kube-prometheus@monitoring/prometheus: true
+
       # Allow Prometheus to scrape metrics from alloy-metrics
       alloy-metrics:12345:
         from:
@@ -102,6 +111,15 @@ networkPolicies:
           definition:
             # Allow alloy-upstream finalizer job to connect to Kube API
             kubeAPI: true
+
+      alloy-singleton:
+        to:
+          definition:
+            # Allow alloy-singleton to query Kubernetes API for event watching
+            kubeAPI: true
+          k8s:
+            # Allow alloy-singleton to forward collected events to Loki
+            logging/logging-loki:3100: true
 
       # Allow alloy-receiver to forward traces to Tempo backend
       alloy-receiver:
@@ -290,6 +308,35 @@ upstream:
         registry: registry1.dso.mil
         repository: ironbank/opensource/grafana/alloy
         tag: "v1.12.2"
+  alloy-singleton:
+    enabled: false
+    image:
+      registry: registry1.dso.mil
+      repository: ironbank/opensource/grafana/alloy
+      tag: "v1.12.2"
+    configReloader:
+      image:
+        registry: registry1.dso.mil
+        repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
+        tag: "v0.88.0"
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+    alloy:
+      enableReporting: false
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+    controller:
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
   podLogs:
     enabled: false
     collector: alloy-logs
+  clusterEvents:
+    enabled: false
+    collector: alloy-singleton

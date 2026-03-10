@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.2-bb.6] (2026-03-09)
+### Added
+- Added alloy-singleton collector and clusterEvents feature for Kubernetes cluster event collection
+- Added network policy ingress rules for alloy-singleton on port 12345 (metrics scraping)
+- Added network policy egress rules for alloy-singleton to kubeAPI and Loki on port 3100
+
 ## [3.7.2-bb.5] (2026-02-17)
 ### Changed
 - ironbank/opensource/grafana/alloy-operator updated from 0.3.15 to 1.6.0

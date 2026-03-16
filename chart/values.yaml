@@ -186,7 +186,7 @@ upstream:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.88.0"
+        tag: "v0.81.0"
       securityContext:
         capabilities:
           drop:
@@ -211,12 +211,12 @@ upstream:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: "v1.12.2"
+      tag: "v1.14.0"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.88.0"
+        tag: "v0.81.0"
       securityContext:
         capabilities:
           drop:
@@ -238,12 +238,12 @@ upstream:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: "v1.12.2"
+      tag: "v1.14.0"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.88.0"
+        tag: "v0.81.0"
       securityContext:
         capabilities:
           drop:
@@ -258,6 +258,9 @@ upstream:
           type: spc_t
   applicationObservability:
     enabled: false
+    connectors:
+      grafanaCloudMetrics:
+        enabled: false
     receivers:
       otlp:
         grpc:
@@ -267,12 +270,12 @@ upstream:
     image:
       registry: registry1.dso.mil
       repository: ironbank/opensource/grafana/alloy
-      tag: "v1.12.2"
+      tag: "v1.14.0"
     configReloader:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.88.0"
+        tag: "v0.81.0"
       securityContext:
         capabilities:
           drop:
@@ -307,7 +310,7 @@ upstream:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/grafana/alloy
-        tag: "v1.12.2"
+        tag: "v1.14.0"
   alloy-singleton:
     enabled: false
     image:
@@ -318,7 +321,7 @@ upstream:
       image:
         registry: registry1.dso.mil
         repository: ironbank/opensource/prometheus-operator/prometheus-config-reloader
-        tag: "v0.88.0"
+        tag: "v0.81.0"
       securityContext:
         capabilities:
           drop:

@@ -22,8 +22,8 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": [
-        "docker"
+      "matchPackageNames": [
+        "registry1.dso.mil/ironbank/opensource/grafana/alloy"
       ],
       "groupName": "Ironbank",
       "registryUrls": [
@@ -34,6 +34,30 @@
           "regenerate-helm-docs",
           "bump-changelog '- {{{replace 'registry1.dso.mil/' '' depName}}} updated from {{{currentVersion}}} to {{{newVersion}}}'",
           "update-alloy-subcharts"
+        ],
+        "fileFilters": [
+          "chart/Chart.yaml",
+          "chart/values.yaml",
+          "README.md",
+          "CHANGELOG.md"
+        ]
+      }
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "excludePackageNames": [
+        "registry1.dso.mil/ironbank/opensource/grafana/alloy"
+      ],
+      "groupName": "Ironbank",
+      "registryUrls": [
+        "https://registry1.dso.mil"
+      ],
+      "postUpgradeTasks": {
+        "commands": [
+          "regenerate-helm-docs",
+          "bump-changelog '- {{{replace 'registry1.dso.mil/' '' depName}}} updated from {{{currentVersion}}} to {{{newVersion}}}'"
         ],
         "fileFilters": [
           "chart/Chart.yaml",
